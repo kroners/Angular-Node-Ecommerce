@@ -3,10 +3,10 @@
 const mongoose =  require('mongoose')
 const app = require('./app')
 const config =  require('./config')
+const api = require('./routes/index')
 
-const User = require('./models/user');
-const Product =  require('./models/product');
-const productControllers = require('./controllers/product')
+//const User = require('./models/user');
+//const Product =  require('./models/product');
 
 //Conexion a BD
 mongoose.connect(config.db, (err, res)=>{
@@ -18,11 +18,6 @@ mongoose.connect(config.db, (err, res)=>{
   })
 })
 
-/*Productos*/
-app.post('/guardaProductos', productControllers.guardarProductos)
-app.get('/buscarProductos/:nombre', productControllers.buscarProductos)
-app.put('/actualizarStock/:codProd/:stock', productControllers.actualizarStock)
-app.delete('/eliminarProducto/:codProd', productControllers.eliminarProducto)
 
 
 /*Usuarios*/

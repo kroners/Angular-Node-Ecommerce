@@ -1,6 +1,7 @@
 'use strict'
 
 const Product =  require('../models/product')
+const mongodb =  require('mongodb')
 
 function guardarProductos(req, res){
   var product = new Product();
@@ -22,6 +23,15 @@ function buscarProductos(req, res){
   var nombre= req.params.nombre
   console.log('nombre a buscar [' + nombre+ ']')
   Product.find({name:  {$regex: nombre.trim(), $options:"i" }}, function(err, product){
+      if(err){
+        res.status(500).send(err);
+      }
+      res.status(200).send(product);
+    });
+}
+
+function listarProductos(req, res){
+  Product.find({}, function(err, product){
       if(err){
         res.status(500).send(err);
       }
@@ -59,10 +69,27 @@ function eliminarProducto(req, res){
       }
   );
 }
+function eliminarProductID(req, res){
+  var _id = req.params._id.trim()
+  console.log('Eliminar producto con id:['+ _id +']');
+
+  Product.find({_id: _id})
+
+  Product.remove(
+    {"_id" : new mongodb.ObjectID(_id)}, function(err, product){
+        if(err){
+          res.status(500).send(err);
+        }
+        res.status(200).send('Producto eliminado');
+      }
+  );
+}
 
 module.exports= {
   guardarProductos,
   buscarProductos,
+  listarProductos,
   actualizarStock,
-  eliminarProducto
+  eliminarProducto,
+  eliminarProductID
 }
