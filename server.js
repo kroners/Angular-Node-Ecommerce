@@ -3,7 +3,7 @@
 const mongoose =  require('mongoose')
 const app = require('./app')
 const config =  require('./config')
-const api = require('./routes/index')
+//const api = require('./routes/index')
 
 //const User = require('./models/user');
 //const Product =  require('./models/product');

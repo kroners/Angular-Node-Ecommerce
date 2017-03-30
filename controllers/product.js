@@ -4,6 +4,7 @@ const Product =  require('../models/product')
 const mongodb =  require('mongodb')
 
 function guardarProductos(req, res){
+  console.log('llego a funct guardarproducto')
   var product = new Product();
   product.codProd = req.body.codProd;
   product.name = req.body.name;

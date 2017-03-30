@@ -6,10 +6,11 @@ const bcrypt = require('bcrypt-nodejs')
 const crypto = require('crypto')
 
 var userSchema = new Schema({
+  codUser:{type: String, unique: true }
   user: {type: String, unique: true, lowercase: true},
   pass: {type: String, select: false},
   nombre: String,
-  avatar: String,
+  /* PAUSA avatar: String,*/
   ultimaSesion: Date
 });
 
@@ -28,12 +29,13 @@ userSchema.pre('save', (next) => {
     })
   })
 })
-/*a partir de usuario devuelve avatar*/
+/*PAUSA
+a partir de usuario devuelve avatar
 userSchema.methods.gravatar = function(){
   if(!this.user) return 'https://gravatar.com/avatar/?s=200&d=retro'
 
   const md5 = crypto.createHash('md5').update(this.user).digest('hex')
   return `https://gravatar.com/avatar/${md5}?s=200&d=retro`
 }
-
+*/
 module.exports = mongoose.model('User', userSchema);
