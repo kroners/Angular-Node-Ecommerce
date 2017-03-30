@@ -1,4 +1,7 @@
 angular
-	.module('farmacia', []);
+	.module('farmacia', [
+			'ngAnimate',
+			'ngRoute'
+		]);
 
 	

@@ -58,7 +58,13 @@ function UserController(usersFactory) {
 
     // If user passes validations, then we continue to registerUser
     // Register inside Factories
-    usersFactory.save(vm.user)
+    usersFactory.save(vm.user, function(data) {
+      console.log(data);
+      console.log('Usuario Creado');
+
+      // Aun no se añaden validators, por lo que solo se asigna la data de usuario al logueado, despues de ser creado.
+      vm.loggedUser = data.user;
+    })
   }
 
   vm.logout = logout;
