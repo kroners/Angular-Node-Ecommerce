@@ -1,7 +1,8 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+'use strict'
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-var productSchema = new Schema({
+const productSchema = new Schema({
   codProd:String,
   name: String,
   desc: String,
