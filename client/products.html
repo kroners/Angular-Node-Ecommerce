@@ -1,0 +1,48 @@
+<div ng-controller="ProductsController">
+<div ng-repeat="prod in products">
+
+	<div class="col-md-6" >
+		  <div class="well well-sm" >
+		    <div class="row" >
+		      <div class="col-md-4" >
+		        <img ng-src="{{ user.photo }}"
+		             alt=""
+		             class="img-rounded img-responsive" />
+		      </div >
+		      <div class="col-md-8" >
+		        <h4 >{{ prod.name }}
+		          <i class="fa"
+		             ng-class="{'fa-female':user.sex == 'F', 'fa-male': user.sex == 'M'}" ></i >
+		        </h4 >
+		        <small >{{ prod.city }}, {{ prod.country }}
+		          <i class="fa fa-map-marker" ></i >
+		        </small >
+		        <p >
+		          <i class="fa fa-envelope-o" ></i >
+							{{ prod.email }}
+		          <br />
+		          <i class="fa fa-gift" ></i >
+							{{ prod.birthdate | date:"longDate"}}
+		        </p >
+
+
+							<button type="button"
+							        class="btn btn-default btn-sm"
+									    ui-sref="edit({email:user.email})">
+								<i class="fa fa-pencil"></i>&nbsp;Edit
+							</button >
+
+							<button type="button"
+							        class="btn btn-danger btn-sm"
+							        ladda="isDeleting"
+									    ng-click="deleteUser()">
+								<i class="fa fa-trash"></i>&nbsp;Delete
+							</button >
+
+		      </div >
+		    </div >
+		  </div >
+		</div >
+
+</div>
+</div>
