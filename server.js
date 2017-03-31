@@ -23,7 +23,8 @@ mongoose.connect(config.db, (err, res)=>{
 /*Usuarios*/
 /*app.get('/',function(req, res){
   //res.send('Hello World');
-  res.sendFile(__dirname + '/index.html');
+  // Note: __dirname is directory that contains the JavaScript source code. Try logging it and see what you get!
+  res.sendFile(__dirname + 'client/index.html');
 });
 
 app.post('/send', function(req, res){
