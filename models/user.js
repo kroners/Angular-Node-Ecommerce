@@ -2,18 +2,17 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 /*Libreria para encriptar contraseña*/
-const bcrypt = require('bcrypt-nodejs')
-const crypto = require('crypto')
+//const bcrypt = require('bcrypt-nodejs')
+//const crypto = require('crypto')
 
 var userSchema = new Schema({
-  codUser:{type: String, unique: true },
   user: {type: String, unique: true, lowercase: true},
   pass: {type: String, select: false},
   nombre: String,
   /* PAUSA avatar: String,*/
   ultimaSesion: Date
 });
-
+/* en pausa para otro metodo
 userSchema.pre('save', (next) => {
   let user = this
   if(!user.isModified('pass')) return next()
@@ -29,6 +28,7 @@ userSchema.pre('save', (next) => {
     })
   })
 })
+*/
 /*PAUSA
 a partir de usuario devuelve avatar
 userSchema.methods.gravatar = function(){
