@@ -17,7 +17,8 @@ function UserController(usersFactory) {
   vm.user = {};
   vm.loggedUser = {};
   vm.loggedIn = false;
-  vm.loginUser = loginUser;
+  vm.login = login;
+  vm.loginUser = {}
   vm.registerUser = registerUser;
   vm.logout = logout;
   vm.toggle = toggle;
@@ -84,7 +85,7 @@ function UserController(usersFactory) {
   function loginUser () {
     vm.loginErrors = '';
 
-    usersFactory.login($scope.loginUser, function(data) {
+    usersFactory.login(vm.loginUser, function(data) {
       if (data) {
         //Yes User.
         if (!data.error) {

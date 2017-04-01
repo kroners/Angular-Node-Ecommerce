@@ -8,7 +8,7 @@
 	usersFactory.$inject = [$http];
 
 	function usersFactoryR($http) {
-		
+
 		console.log('entering into Factory using http to make CRUD operations');
 		var thisUser = null;
 		var resetPassUser = {};
@@ -47,7 +47,7 @@
 	  		$http.post('/login', user).success(function(data) {
 	  			//Returns the User data that will be kept in Session
 	  			console.log(data);
-	  			
+
 	  		})
 	  	};
 
