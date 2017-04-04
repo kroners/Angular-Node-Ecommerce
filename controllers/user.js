@@ -2,7 +2,7 @@
 
 const User = require('../models/user')
 const mongodb = require('mongodb')
-const bcrypt= require('bcrypt')
+const bcrypt = require('bcrypt')
 
 
 function crearUsuario(req, res){

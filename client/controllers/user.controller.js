@@ -5,9 +5,9 @@ angular
 	.module('farmacia')
 	.controller('UserController', UserController);
 
-UserController.$inject = ['usersFactory'];
+UserController.$inject = ['usersFactory', $scope];
 
-function UserController(usersFactory) {
+function UserController(usersFactory, $scope) {
   var vm = this; // not using $scope as best practices from Jhon Papa, unless necessary
   // consider using $scope in a controller when publishing or subscribing events
   // using $emit, $broadcast, $on
