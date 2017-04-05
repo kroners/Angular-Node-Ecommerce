@@ -13,5 +13,5 @@ mongoose.connect(config.db, (err, res)=>{
   }
   app.listen(config.port, function(){
     console.log(`API rest de ecommerce corriendo en http://localhost:${config.port}`)
-  })
+  });
 })
