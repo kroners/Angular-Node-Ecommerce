@@ -18,17 +18,17 @@
 		// Helpful when file gets longer and avoids scrolling down to see what is exposed.
 		// We create the functions below, and the factorie will be exposed as a service.
 		var service = {   // this variable could also be called factory
-			registerUser = registerUser;
-			login = login;
-			isLoggedIn = isLoggedIn;
-			getUser = getUser;
-			getUserByEmail = getUserByEmail;
-			resetPassword = resetPassword;
-			getResetPassUser = getResetPassUser;
-			updateUser = updateUser;
-			changePassword = changePassword;
-			getAllUsers = getAllUsers;
-			delUser = delUser;
+			registerUser = registerUser,
+			login = login,
+			isLoggedIn = isLoggedIn,
+			getUser = getUser,
+			getUserByEmail = getUserByEmail,
+			resetPassword = resetPassword,
+			getResetPassUser = getResetPassUser,
+			updateUser = updateUser,
+			changePassword = changePassword,
+			getAllUsers = getAllUsers,
+			delUser = delUser,
 		};
 
 		return service;    // this variable could also be called factory

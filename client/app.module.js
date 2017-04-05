@@ -1,11 +1,20 @@
 angular
 	.module('farmacia', [
-			'ngAnimate',
-			'ngRoute'
+		'ngResource',
+		'infinite-scroll',
+		'angularSpinner',
+		'jcs-autoValidate',
+		'angular-ladda',
+		'mgcrea.ngStrap',
+		'toaster',
+		'ngAnimate',
+		'ui.router',
+		'ngRoute',
+		'ngCookies'
 		]);
 
 		angular
-			.module('app')
+			.module('farmacia')
 			.config(function ($httpProvider) { //,  $resourceProvider, laddaProvider, $datepickerProvider) {
 				$httpProvider.defaults.useXDomain = true;
 				$httpProvider.defaults.withCredentials = true;

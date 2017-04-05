@@ -5,9 +5,9 @@ angular
 	.module('farmacia')
 	.controller('UserController', UserController);
 
-UserController.$inject = ['usersFactory', $scope];
+UserController.$inject = ['UserFactory', '$scope'];
 
-function UserController(usersFactory, $scope) {
+function UserController(UserFactory, $scope) {
   var vm = this; // not using $scope as best practices from Jhon Papa, unless necessary
   // consider using $scope in a controller when publishing or subscribing events
   // using $emit, $broadcast, $on
@@ -36,7 +36,7 @@ function UserController(usersFactory, $scope) {
       password         : 'Password is required'
   }
 
-  vm.userFact = usersFactory;
+  vm.userFact = UserFactory;
 
   //Create user
   // Connect to factory to Create user
@@ -62,7 +62,7 @@ function UserController(usersFactory, $scope) {
 
     // If user passes validations, then we continue to registerUser
     // Register inside Factories
-    usersFactory.save(vm.user, function(data) {
+    UserFactory.save(vm.user, function(data) {
       console.log(data);
       console.log('Usuario Creado');
 
@@ -78,14 +78,14 @@ function UserController(usersFactory, $scope) {
         vm.loggedUser = user;
         vm.loggedIn = true;
       }
-    })
+    });
   };
 
   // User is Logging In
   function loginUser () {
     vm.loginErrors = '';
 
-    usersFactory.login(vm.loginUser, function(data) {
+    UserFactory.login(vm.loginUser, function(data) {
       if (data) {
         //Yes User.
         if (!data.error) {

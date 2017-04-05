@@ -32,4 +32,4 @@ api.get('/private', auth.isAuth, function(req, res){
 })
 */
 
-module.exports = api
+module.exports = api 
