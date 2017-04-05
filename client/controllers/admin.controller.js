@@ -5,7 +5,7 @@
     .module('farmacia')
     .controller('AdminController', AdminController);
 
-  AdminController.$inject = ['UserFactory', 'ProductFactory', $scope];
+  AdminController.$inject = ['UserFactory', 'ProductFactory', '$scope'];
 
   function AdminController(UserFactory, ProductFactory, $scope) {
     var vm = this;

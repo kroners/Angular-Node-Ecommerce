@@ -5,7 +5,7 @@
   	.module('farmacia')
   	.controller('ProfileController', ProfileController);
 
-  ProfileController.$inject = ['UserFactory', $scope];
+  ProfileController.$inject = ['UserFactory', '$scope'];
 
   function ProfileController(UserFactory, $scope) {
     var vm = this;

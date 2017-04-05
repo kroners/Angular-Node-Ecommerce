@@ -72,14 +72,12 @@ function UserController(UserFactory, $scope) {
   };
 
   // Search if user is LoggedIn
-  function checkSessionUser () {
     vm.userFact.isLoggedIn(function(vm.user) {
       if(vm.user.id){
         vm.loggedUser = user;
         vm.loggedIn = true;
       }
     });
-  };
 
   // User is Logging In
   function loginUser () {

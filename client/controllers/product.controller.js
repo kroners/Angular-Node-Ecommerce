@@ -5,7 +5,7 @@
   	.module('farmacia')
   	.controller('ProductController', ProductController);
 
-  ProductController.$inject = ['UserFactory', $scope];
+  ProductController.$inject = ['UserFactory', '$scope'];
 
   function ProductController(UserFactory, $scope) {
     var vm = this;
