@@ -17,7 +17,7 @@
 		// placing callable members up to, makes it easy to read and helps you identify which members can be called.
 		// Helpful when file gets longer and avoids scrolling down to see what is exposed.
 		// We create the functions below, and the factorie will be exposed as a service.
-		var service = {   // this variable could also be called factory
+		var service = [   // this variable could also be called factory
 			registerUser = registerUser,
 			login = login,
 			isLoggedIn = isLoggedIn,
@@ -29,9 +29,9 @@
 			changePassword = changePassword,
 			getAllUsers = getAllUsers,
 			delUser = delUser
-		};
+		];
 
-		return {service};    // this variable could also be called factory
+		return service;    // this variable could also be called factory
 
 		// we avoid using functions expressions and instead used function declarations as below
 		function registerUser(user, callback) {
@@ -50,7 +50,7 @@
 	  	})
 	  };
     // Manual login status check, to be used on controller loads
-    function isLoggedIn (callback){
+    function isLoggedIn (user, callback){
         $http.get('/checkLogin').success(function(user){
             if(user.id){
                 callback(user);
