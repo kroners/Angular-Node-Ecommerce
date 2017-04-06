@@ -5,9 +5,9 @@ angular
 	.module('farmacia')
 	.controller('UserController', UserController);
 
-UserController.$inject = ['UserFactory', '$scope'];
+UserController.$inject = ['$rootScope', '$scope', '$http', '$location', 'UserFactory'];
 
-function UserController(UserFactory, $scope) {
+function UserController($rootScope, $scope, $http, $location, UserFactory) {
   var vm = this; // not using $scope as best practices from Jhon Papa, unless necessary
   // consider using $scope in a controller when publishing or subscribing events
   // using $emit, $broadcast, $on
@@ -18,7 +18,7 @@ function UserController(UserFactory, $scope) {
   vm.loggedUser = {};
   vm.loggedIn = false;
   vm.login = login;
-  vm.loginUser = {}
+  vm.loginUser = {};
   vm.registerUser = registerUser;
   vm.logout = logout;
   vm.toggle = toggle;
@@ -34,9 +34,13 @@ function UserController(UserFactory, $scope) {
       lastName         : 'Last name field is required',
       email            : 'Last name field is required',
       password         : 'Password is required'
-  }
+  };
 
-  vm.userFact = UserFactory;
+  function toggle() {
+    vm.mobile_drop = !vm.mobile_drop;
+  };
+
+  checkUserSession();
 
   //Create user
   // Connect to factory to Create user
@@ -62,7 +66,7 @@ function UserController(UserFactory, $scope) {
 
     // If user passes validations, then we continue to registerUser
     // Register inside Factories
-    UserFactory.save(vm.user, function(data) {
+    UserFactory.registerUser(vm.user, function(data) {
       console.log(data);
       console.log('Usuario Creado');
 
@@ -72,15 +76,19 @@ function UserController(UserFactory, $scope) {
   };
 
   // Search if user is LoggedIn
-    vm.userFact.isLoggedIn(function(vm.user) {
-      if(vm.user.id){
-        vm.loggedUser = user;
-        vm.loggedIn = true;
-      }
-    });
+  function checkUserSession(){
+    UserFactory.isLoggedIn(vm.user)
+      .then(function() {
+        console.log(vm.user);
+        if(vm.user.id){
+          vm.loggedUser = vm.user;
+          vm.loggedIn = true;
+        }
+      })
+  };
 
   // User is Logging In
-  function loginUser () {
+  function login () {
     vm.loginErrors = '';
 
     UserFactory.login(vm.loginUser, function(data) {

@@ -5,9 +5,10 @@
   	.module('farmacia')
   	.controller('ProductController', ProductController);
 
-  ProductController.$inject = ['UserFactory', '$scope'];
-
-  function ProductController(UserFactory, $scope) {
+  ProductController.$inject = ['$scope', 'UserFactory', 'ProductFactory'];
+  console.log(3);
+  function ProductController($scope, UserFactory, ProductFactory) {
+    console.log(33);
     var vm = this;
     vm.loggedUser = {};
     vm.loggedIn = false;

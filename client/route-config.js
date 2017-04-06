@@ -5,31 +5,27 @@ angular
 function config($routeProvider) {
   $routeProvider
     .when('/', {
-      templateUrl: 'partials/home.html'
+      templateUrl: 'partials/home.html',
+      controller: 'UserController'
     })
     .when('/products', {
       templateUrl: 'partials/products.html',
-      controller: 'Products',
-      controllerAs: 'prod'
+      controller: 'ProductsController'
     })
     .when('/profile', {
       templateUrl: 'partials/profile.html',
-      controller: 'Profile',
-      controllerAs: 'profile'
+      controller: 'ProfileController'
     })
     .when('/adminYoyoLala', {
       templateUrl: 'partials/admin.html',
-      controller: 'Admin',
-      controllerAs: 'yola'
+      controller: 'AdminController'
     })
     .when('/login', {
       templateUrl: 'partials/login.html',
-      controller: 'User',
-      controllerAs: 'us'
+      controller: 'UserController'
     })
     .when('/register', {
       templateUrl: 'partials/register.html',
-      controller: 'User',
-      controllerAs: 'us'
+      controller: 'UserController'
     });
 }
