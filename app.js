@@ -8,8 +8,6 @@ const passport = require('passport')
 
 require('./passporting')(passport)
 
-
-
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 app.use(passport.initialize())
