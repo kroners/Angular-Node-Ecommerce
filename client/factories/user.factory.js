@@ -5,9 +5,9 @@
 		.module('farmacia')
 		.factory('UserFactory', UserFactory);
 
-	UserFactory.$inject = [$http];
+	UserFactory.$inject = ['$http', '$location'];
 
-	function UserFactory($http) {
+	function UserFactory($http, $location) {
 
 		console.log('entering into Factory using http to make CRUD operations');
 		var thisUser = null;
@@ -28,17 +28,17 @@
 			updateUser = updateUser,
 			changePassword = changePassword,
 			getAllUsers = getAllUsers,
-			delUser = delUser,
+			delUser = delUser
 		};
 
-		return service;    // this variable could also be called factory
+		return {service};    // this variable could also be called factory
 
 		// we avoid using functions expressions and instead used function declarations as below
 		function registerUser(user, callback) {
 			$http.post('/crearUsuario', user).success(function(data) {
 	       // Returns random string in data.string
 	       if (callback && typeof callback == 'function') {
-	          callback(data);
+	          return callback(data);
 	       }
 	    })
 	  };
@@ -92,6 +92,12 @@
     }
     function getResetPassUser () {
         return resetPassUser;
+    }
+    function getAllUsers () {
+        return 'resetPassUser';
+    }
+    function delUser () {
+        return 'resetPassUser';
     }
 
     function updateUser (userinfo) {

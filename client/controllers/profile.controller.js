@@ -5,9 +5,11 @@
   	.module('farmacia')
   	.controller('ProfileController', ProfileController);
 
-  ProfileController.$inject = ['UserFactory', '$scope'];
+  ProfileController.$inject = ['$scope', 'UserFactory'];
 
-  function ProfileController(UserFactory, $scope) {
+  console.log(2);
+
+  function ProfileController($scope, UserFactory) {
     var vm = this;
     vm.loggedUser = {};
     vm.loggedIn = false;
