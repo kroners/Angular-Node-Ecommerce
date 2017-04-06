@@ -53,14 +53,17 @@ passport.use('local-login', new LocalStrategy({
       console.log('Entro al USE - Local Login')
       username = req.body.username
       password = req.body.password
-      console.log('User: ['+ username+ '], Pass: ['+ password+ ']')
+      console.log('IN --> User: ['+ username+ '], Pass: ['+ password+ ']')
       process.nextTick(function(){
         User.findOne({username: {$regex: username, $options: "i"}}, function(err, user){
-          console.log('---------->' + user.username + '<-------------')
-          console.log('---------->' + user.password + '<-------------')
-          console.log('---------->' + user.name + '<-------------')
+          if(user){
+            console.log('OUT DATA FROM DATABASE')
+            console.log('---------->' + user.username + '<-------------')
+            console.log('---------->' + user.password + '<-------------')
+            console.log('---------->' + user.name + '<-------------')
+          }
           if(err){
-            console.log(err)
+            console.log('Error general - Login - ' + err)
             return done(err)
           }
           if(!user){
@@ -68,11 +71,11 @@ passport.use('local-login', new LocalStrategy({
             return done(null, false, {message: 'Error - El usuario no existe'})
           }
           //var newUser = new User()
-          if(!user.validPassword(password)){
+          if(!user.validPassword(user.password, password)){
             console.log('Error - Clave incorrecta')
             return done(null, false, {message: 'Error - Clave incorrecta'})
           }
-          console.log('Login OK nombre de useuario: [' + user.name +']')
+          console.log('Login OK nombre de usuario: [' + user.name +']')
           return done(null, user)
         })
       })
