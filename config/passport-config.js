@@ -19,12 +19,13 @@ passport.use('local-signup', new LocalStrategy({
     passReqToCallback: true},
     function(req, username, password, done){
       console.log('Entro al USE - Local SignUP')
-      username = req.body.username
-      password = req.body.password
+      username = req.body.username.toLowerCase().trim()
+      password = req.body.password.trim()
       var name = req.body.name
       console.log('User: ['+ username+ '], Pass: ['+ password+ '], Name: ['+ name +']')
       process.nextTick(function(){
         User.findOne({username: {$regex: username, $options: "i"}}, function(err, user){
+          console.log('Busca si existe o no usuario')
           if(err){
             return done(err)
           }
@@ -32,15 +33,22 @@ passport.use('local-signup', new LocalStrategy({
             console.log('Error - El usuario ya esta en uso');
             return done(null, false, {message: 'Error - El usuario ya esta en uso'})
           }else{
+            console.log('Usuario disponible');
+	try{
             var newUser = new User()
             newUser.username = username
             newUser.password = newUser.generateHash(password)
             newUser.name = name
-
             newUser.save(function(err){
-              if(err){throw err}
+              if(err){
+                throw err
+                return(null, err)
+              }
               return done(null, newUser)
             })
+          }catch(err){
+            console.log('Error : ************' + err)
+          }
           }
         })
       })
@@ -51,11 +59,12 @@ passport.use('local-login', new LocalStrategy({
     passReqToCallback: true},
     function(req, username, password, done){
       console.log('Entro al USE - Local Login')
-      username = req.body.username
-      password = req.body.password
+      username = req.body.username.toLowerCase().trim()
+      password = req.body.password.trim()
+
       console.log('IN --> User: ['+ username+ '], Pass: ['+ password+ ']')
       process.nextTick(function(){
-        User.findOne({username: {$regex: username, $options: "i"}}, function(err, user){
+        User.findOne({username: username}, function(err, user){
           if(user){
             console.log('OUT DATA FROM DATABASE')
             console.log('---------->' + user.username + '<-------------')
@@ -81,8 +90,6 @@ passport.use('local-login', new LocalStrategy({
       })
     }
   ));
-
-
 
 
 }
