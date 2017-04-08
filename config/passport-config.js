@@ -2,6 +2,9 @@
 
 var LocalStrategy = require('passport-local').Strategy
 var User = require('../models/user')
+var userControllers = require('../controllers/user')
+var momenttz = require('moment-timezone')
+const configfile = require('./config-file')
 
 module.exports = function(passport){
 
@@ -35,10 +38,13 @@ passport.use('local-signup', new LocalStrategy({
           }else{
             console.log('Usuario disponible');
 	try{
+            var hora = momenttz().tz(configfile.server_time_zone).format()
             var newUser = new User()
             newUser.username = username
             newUser.password = newUser.generateHash(password)
             newUser.name = name
+            newUser.lastLogin = null
+            newUser.signUpDate = hora
             newUser.save(function(err){
               if(err){
                 throw err
@@ -48,6 +54,7 @@ passport.use('local-signup', new LocalStrategy({
             })
           }catch(err){
             console.log('Error : ************' + err)
+            return done(err, null)
           }
           }
         })
@@ -67,9 +74,10 @@ passport.use('local-login', new LocalStrategy({
         User.findOne({username: username}, function(err, user){
           if(user){
             console.log('OUT DATA FROM DATABASE')
-            console.log('---------->' + user.username + '<-------------')
-            console.log('---------->' + user.password + '<-------------')
-            console.log('---------->' + user.name + '<-------------')
+            console.log('--USER-------->' + user.username + '<-------------')
+            console.log('--PASS-------->' + user.password + '<-------------')
+            console.log('--NAME-------->' + user.name + '<-------------')
+            console.log('--LASTLOGIN-------->' + user.lastLogin + '<-------------')
           }
           if(err){
             console.log('Error general - Login - ' + err)
@@ -85,6 +93,8 @@ passport.use('local-login', new LocalStrategy({
             return done(null, false, {message: 'Error - Clave incorrecta'})
           }
           console.log('Login OK nombre de usuario: [' + user.name +']')
+          //Actualizar fecha de lastLogin
+          userControllers.actualizarLastLogin(user.username)
           return done(null, user)
         })
       })

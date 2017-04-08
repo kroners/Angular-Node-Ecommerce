@@ -19,6 +19,7 @@ app.use(passport.session())
 
 //Rutas
 require('./routes/index')(app, passport)
+require('./routes/auth-routes')(app)
 
 // se añaden las cabeceras en back para permitir acceso desde front end.
 app.use(function(req, res, next) {

@@ -8,7 +8,8 @@ var userSchema = new Schema({
   username: {type: String, unique: true, lowercase: true},
   password: {type: String},
   name: String,
-  lastlogin: Date
+  lastLogin: Date,
+  signUpDate: Date
 });
 
 userSchema.methods.generateHash = function(password){
