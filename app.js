@@ -5,7 +5,9 @@ const app =  express()
 const bodyParser = require('body-parser')
 var passport = require('passport')
 var session = require('session')
+var session = require('express-session')
 var morgan = require('morgan')
+const configfile = require('./config/config-file')
 /*Configuracion de passport para login y signUP*/
 require('./config/passport-config')(passport)
 
@@ -13,6 +15,13 @@ app.use(morgan('dev'))
 
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
+
+app.use(session({
+  secret: configfile.secret_token_session,
+  resave: true,
+  saveUninitialized: true
+  }
+))
 
 app.use(passport.initialize())
 app.use(passport.session())

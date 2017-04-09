@@ -17,6 +17,7 @@ module.exports = function(passport){
       done(err, user)
     })
   });
+
 /*Configuracion para signUp*/
 passport.use('local-signup', new LocalStrategy({
     passReqToCallback: true},
@@ -66,9 +67,10 @@ passport.use('local-login', new LocalStrategy({
     passReqToCallback: true},
     function(req, username, password, done){
       console.log('Entro al USE - Local Login')
+      var sess;
+      sess = req.session;
       username = req.body.username.toLowerCase().trim()
       password = req.body.password.trim()
-
       console.log('IN --> User: ['+ username+ '], Pass: ['+ password+ ']')
       process.nextTick(function(){
         User.findOne({username: username}, function(err, user){
@@ -95,6 +97,7 @@ passport.use('local-login', new LocalStrategy({
           console.log('Login OK nombre de usuario: [' + user.name +']')
           //Actualizar fecha de lastLogin
           userControllers.actualizarLastLogin(user.username)
+          sess.user = user
           return done(null, user)
         })
       })
