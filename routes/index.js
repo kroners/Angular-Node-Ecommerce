@@ -1,24 +1,27 @@
 'use strict'
 
 module.exports = function(app, passport){
-  app.get('/', function(req, res){
-    res.send({message: 'Pagina de inicio para login y signup'})
-  });
+  // app.get('/', function(req, res){
+  //   res.send({message: 'Pagina de inicio para login y signup'})
+  // });
 
-  app.get('/login', function(req, res){
-    res.send({message: 'Pagina de Login'})
-  });
+  // app.get('/login', function(req, res){
+  //   res.send({message: 'Pagina de Login'})
+  // });
 
-  app.get('/signup', function(req, res){
-    res.send({message: 'Pagina de registro - sign up'})
-  });
+  // app.get('/signup', function(req, res){
+  //   res.send({message: 'Pagina de registro - sign up'})
+  // });
 
-  app.get('/profile', function(req, res){
-    res.send({message: 'Perfil de usuario - Login OK'})
-  });
+  // app.get('/profile', function(req, res){
+  //   res.send({message: 'Perfil de usuario - Login OK'})
+  // });
 
   app.post('/signup', function(req, res, next){
     passport.authenticate('local-signup', function(err, user, info){
+      console.log(user);
+      console.log(info);
+      console.log(err);
       if(err){return next(err)}
       //pruba mensaje de backend if(!user){return res.redirect('/signup')}
       if(!user){return res.send(info)}

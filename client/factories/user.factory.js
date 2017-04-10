@@ -40,8 +40,10 @@
 		// we avoid using functions expressions and instead used function declarations as below
 		function registerUser(user, callback) {
             console.log('Inside registerUser Factory');
-			$http.post('/crearUsuario', user).success(function(data) {
+            console.log(user);
+			$http.post('/signup', user).then(function(data) {
     	       // Returns random string in data.string
+               console.log(data);
                 if (callback && typeof callback == 'function') {
                     callback(data);
                 }
@@ -50,7 +52,7 @@
 
 
         function login (user, callback) {
-	  	    $http.post('/login', user).success(function(data) {
+	  	    $http.post('/login', {'data':user}).then(function(data) {
                 //Returns the User data that will be kept in Session
                 console.log(data);
     	  	})
