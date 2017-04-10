@@ -8,20 +8,19 @@ angular
 UserController.$inject = ['$rootScope', '$scope', '$http', '$location', 'UserFactory'];
 
 function UserController($rootScope, $scope, $http, $location, UserFactory) {
-  var vm = this; // not using $scope as best practices from Jhon Papa, unless necessary
+  
+  console.log("Inside User Controller");
+
+  var vm = this; // not using $scope as best practices from John Papa, unless necessary
   // consider using $scope in a controller when publishing or subscribing events
   // using $emit, $broadcast, $on
 
 	//console.log(usersFactory);
   //initializing variables inside the Controller
   vm.user = {};
-  vm.loggedUser = {};
+  vm.sessionUser = {};
   vm.loggedIn = false;
-  vm.login = login;
   vm.loginUser = {};
-  vm.registerUser = registerUser;
-  vm.logout = logout;
-  vm.toggle = toggle;
   vm.loginErrors = '';
   vm.regErrors = {
         firstName       : '',
@@ -29,6 +28,13 @@ function UserController($rootScope, $scope, $http, $location, UserFactory) {
         password        : '',
         confirmPassword : ''
   };
+
+  //initializing function variables
+  vm.login = login;
+  vm.registerUser = registerUser;
+  vm.logout = logout;
+  vm.toggle = toggle;
+  
   var errorMessages = {
       firstName        : 'First name field is required',
       lastName         : 'Last name field is required',
@@ -40,9 +46,9 @@ function UserController($rootScope, $scope, $http, $location, UserFactory) {
     vm.mobile_drop = !vm.mobile_drop;
   };
 
-  checkUserSession();
+  
 
-  //Create user
+  // Create user
   // Connect to factory to Create user
   // According to Jhon Papa, we should defer the Controller Logic to service
   function registerUser() {
@@ -71,21 +77,24 @@ function UserController($rootScope, $scope, $http, $location, UserFactory) {
       console.log('Usuario Creado');
 
       // Aun no se añaden validators, por lo que solo se asigna la data de usuario al logueado, despues de ser creado.
-      vm.loggedUser = data.user;
+      vm.sessionUser = data.user;
     })
   };
 
   // Search if user is LoggedIn
   function checkUserSession(){
+    console.log("The user " + vm.user);
     UserFactory.isLoggedIn(vm.user)
       .then(function() {
         console.log(vm.user);
         if(vm.user.id){
-          vm.loggedUser = vm.user;
+          vm.sessionUser = vm.user;
           vm.loggedIn = true;
         }
       })
   };
+
+  //checkUserSession();
 
   // User is Logging In
   function login () {
@@ -95,7 +104,7 @@ function UserController($rootScope, $scope, $http, $location, UserFactory) {
       if (data) {
         //Yes User.
         if (!data.error) {
-          vm.loggedUser = data;
+          vm.sessionUser = data;
           vm.loggedIn = true;
 
           $('#Login').modal('toggle');
@@ -114,7 +123,7 @@ function UserController($rootScope, $scope, $http, $location, UserFactory) {
   function logout() {
     // Log out through Passport, then clear local user data and redirect
     $http.get('/logout').success(function(){
-      $scope.loggedUser = {};
+      $scope.sessionUser = {};
       $scope.loggedIn = false;
     });
   };
