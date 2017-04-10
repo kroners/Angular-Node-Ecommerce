@@ -48,6 +48,7 @@
     	    })
     	  };
 
+
         function login (user, callback) {
 	  	    $http.post('/login', user).success(function(data) {
                 //Returns the User data that will be kept in Session

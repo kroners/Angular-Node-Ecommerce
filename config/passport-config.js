@@ -2,6 +2,9 @@
 
 var LocalStrategy = require('passport-local').Strategy
 var User = require('../models/user')
+var userControllers = require('../controllers/user')
+var momenttz = require('moment-timezone')
+const configfile = require('./config-file')
 
 module.exports = function(passport){
 
@@ -19,12 +22,13 @@ passport.use('local-signup', new LocalStrategy({
     passReqToCallback: true},
     function(req, username, password, done){
       console.log('Entro al USE - Local SignUP')
-      username = req.body.username
-      password = req.body.password
+      username = req.body.username.toLowerCase().trim()
+      password = req.body.password.trim()
       var name = req.body.name
       console.log('User: ['+ username+ '], Pass: ['+ password+ '], Name: ['+ name +']')
       process.nextTick(function(){
         User.findOne({username: {$regex: username, $options: "i"}}, function(err, user){
+          console.log('Busca si existe o no usuario')
           if(err){
             return done(err)
           }
@@ -32,15 +36,26 @@ passport.use('local-signup', new LocalStrategy({
             console.log('Error - El usuario ya esta en uso');
             return done(null, false, {message: 'Error - El usuario ya esta en uso'})
           }else{
+            console.log('Usuario disponible');
+	try{
+            var hora = momenttz().tz(configfile.server_time_zone).format()
             var newUser = new User()
             newUser.username = username
             newUser.password = newUser.generateHash(password)
             newUser.name = name
-
+            newUser.lastLogin = null
+            newUser.signUpDate = hora
             newUser.save(function(err){
-              if(err){throw err}
+              if(err){
+                throw err
+                return(null, err)
+              }
               return done(null, newUser)
             })
+          }catch(err){
+            console.log('Error : ************' + err)
+            return done(err, null)
+          }
           }
         })
       })
@@ -51,16 +66,18 @@ passport.use('local-login', new LocalStrategy({
     passReqToCallback: true},
     function(req, username, password, done){
       console.log('Entro al USE - Local Login')
-      username = req.body.username
-      password = req.body.password
+      username = req.body.username.toLowerCase().trim()
+      password = req.body.password.trim()
+
       console.log('IN --> User: ['+ username+ '], Pass: ['+ password+ ']')
       process.nextTick(function(){
-        User.findOne({username: {$regex: username, $options: "i"}}, function(err, user){
+        User.findOne({username: username}, function(err, user){
           if(user){
             console.log('OUT DATA FROM DATABASE')
-            console.log('---------->' + user.username + '<-------------')
-            console.log('---------->' + user.password + '<-------------')
-            console.log('---------->' + user.name + '<-------------')
+            console.log('--USER-------->' + user.username + '<-------------')
+            console.log('--PASS-------->' + user.password + '<-------------')
+            console.log('--NAME-------->' + user.name + '<-------------')
+            console.log('--LASTLOGIN-------->' + user.lastLogin + '<-------------')
           }
           if(err){
             console.log('Error general - Login - ' + err)
@@ -76,13 +93,13 @@ passport.use('local-login', new LocalStrategy({
             return done(null, false, {message: 'Error - Clave incorrecta'})
           }
           console.log('Login OK nombre de usuario: [' + user.name +']')
+          //Actualizar fecha de lastLogin
+          userControllers.actualizarLastLogin(user.username)
           return done(null, user)
         })
       })
     }
   ));
-
-
 
 
 }
