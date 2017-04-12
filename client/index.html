@@ -28,7 +28,7 @@
   <script src="js/simpleCart.min.js"> </script>
   <!-- start menu -->
   <link href="css/memenu.css" rel="stylesheet" type="text/css" media="all" />
-  <script type="text/javascript" src="js/memenu.js"></script>
+  
   <!--script>$(document).ready(function(){$(".memenu").memenu();});</script--> 
   <!-- /start menu -->
 
@@ -37,7 +37,7 @@
   <div ng-controller="UserController">
 	<!-- Navigation -->
     <!-- <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"> -->
-        <!-- <div class="container"> -->
+        <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="header-top">
               <div class="header-bottom">
@@ -109,23 +109,24 @@
                     </li>          
                   </ul>       
                  </div>
-            </div>
-            <div class="cart box_1">
-         <a href="checkout.html">
-          <div class="total">
-          <span class="simpleCart_total"></span> (<span id="simpleCart_quantity" class="simpleCart_quantity"></span>)</div>
-          <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
-        </a>
-        <p><a href="javascript:;" class="simpleCart_empty">Empty Cart</a></p>
-        <div class="clearfix"> </div>
-       </div>
-       <div class="clearfix"> </div>
+              </div>
+              <div class="cart box_1">
+                <a href="checkout.html">
+                <div class="total">
+                  <span class="simpleCart_total"></span> (<span id="simpleCart_quantity" class="simpleCart_quantity"></span>)
+                </div>
+                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+                </a>
+                <p><a href="javascript:;" class="simpleCart_empty">Empty Cart</a></p>
+                <div class="clearfix"> </div>
+              </div>
+              <div class="clearfix"> </div>
        <!---->       
-       </div>
-      <div class="clearfix"> </div>
             </div>
+            <div class="clearfix"> </div>
+
             <!-- /.navbar-collapse -->
-        <!-- </div> -->
+        </div>
         <!-- /.container -->
     <!-- </nav> -->
     <div class="container">
@@ -236,6 +237,25 @@
         </footer>
       </div>
     </div>
+        <!-- jQuery --> 
+    <script src="js/jquery.js"></script>
+    <script src="js/memenu.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+     <!--
+    <script src="js/bootstrap.js"> </script>-->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/responsiveslides.min.js"></script>
+    <script>  
+      $(function () {
+        $("#slider").responsiveSlides({
+          auto: true,
+          nav: true,
+          speed: 500,
+          namespace: "callbacks",
+          pager: false,
+        });
+      });
+    </script> 
     <!-- /.container -->
     <script src="/libs/angular/angular.min.js"></script>
     <script src="/libs/angular-resource/angular-resource.min.js" ></script>
@@ -262,22 +282,6 @@
     <script src="factories/user.factory.js"></script>
     <script src="controllers/product.controller.js"></script>
     <script src="factories/product.factory.js"></script>
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/responsiveslides.min.js"></script>
-    <script>  
-      $(function () {
-        $("#slider").responsiveSlides({
-          auto: true,
-          nav: true,
-          speed: 500,
-          namespace: "callbacks",
-          pager: false,
-        });
-      });
-    </script>
 </body>
 </html>
