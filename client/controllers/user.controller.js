@@ -78,7 +78,7 @@ function UserController($rootScope, $scope, $http, $location, UserFactory) {
       console.log('Usuario Creado');
       $('#Register').modal('toggle');
       // Aun no se añaden validators, por lo que solo se asigna la data de usuario al logueado, despues de ser creado.
-      $scope.sessionUser = data.user;
+      // $scope.sessionUser = data.user;
     })
   };
 

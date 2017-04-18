@@ -13,9 +13,9 @@ module.exports = function(app, passport){
   //   res.send({message: 'Pagina de registro - sign up'})
   // });
 
-  // app.get('/profile', function(req, res){
-  //   res.send({message: 'Perfil de usuario - Login OK'})
-  // });
+  app.get('/profile', function(req, res){
+    res.send({message: 'Perfil de usuario - Login OK', status: "SUCCESS"});
+  });
 
   app.post('/signup', function(req, res, next){
     passport.authenticate('local-signup', function(err, user, info){

@@ -42,8 +42,8 @@
             console.log('Inside registerUser Factory');
             console.log(user);
 			$http.post('/signup', user).then(function(data) {
-    	       // Returns random string in data.string
-               console.log(data);
+                // Returns random string in data.string
+                console.log(data);
                 if (callback && typeof callback == 'function') {
                     callback(data);
                 }
