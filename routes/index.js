@@ -41,10 +41,10 @@ module.exports = function(app, passport){
 
   app.post('/login', function(req, res, next){
     passport.authenticate('local-login', function(err, user, info){
-      if(err){return next(err)}
-      if(!user){return res.send(info)}
+      if(err){return res.status(500).send(info)}
+      if(user == false){return res.status(401).send(info)}
       req.logIn(user, function(err){
-        if(err){return next(err)}
+        if(err){return res.status(500).send({codErr:'500', descerror: err})}
         return res.redirect('/loginOK')
       })
     })(req, res, next);

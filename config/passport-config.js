@@ -93,22 +93,23 @@ passport.use('local-login', new LocalStrategy({
           }
           if(err){
             console.log('Error general - Login - ' + err)
-            return done(err)
+            return done(err, false, {codErr: '500', descerror: err})
+            //return done(err)
           }
           if(!user){
             console.log('Error - El usuario no existe');
-            return done(null, false, {message: 'Error - El usuario no existe'})
+            return done(null, false, {codErr: '401', descerror: 'El usuario no existe'})
           }
           //var newUser = new User()
           if(!user.validPassword(user.password, password)){
             console.log('Error - Clave incorrecta')
-            return done(null, false, {message: 'Error - Clave incorrecta'})
+            return done(null, false, {codErr: '403', descerror: 'Clave incorrecta'})
           }
-          console.log('Login OK nombre de usuario: [' + user.name +']')
+          console.log('Login OK nombre de usuario: [' + user.name + ' '+ user.lastName +']')
           //Actualizar fecha de lastLogin
           userControllers.actualizarLastLogin(user.username)
           sess.user = user
-          return done(null, user)
+          return done(null, user)/*aca faltaria regresar datos de info*/
         })
       })
     }
