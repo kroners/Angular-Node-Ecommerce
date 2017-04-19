@@ -5,13 +5,13 @@
   	.module('farmacia')
   	.controller('ProductController', ProductController);
 
-  ProductController.$inject = ['$scope', 'UserFactory', 'ProductFactory'];
-  console.log(3);
-  function ProductController($scope, UserFactory, ProductFactory) {
-    console.log(33);
-    var vm = this;
-    vm.loggedUser = {};
-    vm.loggedIn = false;
+  ProductController.$inject = ['$scope', 'ProductService'];
+
+  function ProductController($scope, ProductService) {
+    console.log("Dentro del product controller");
+    // var vm = this;
+    $scope.products = ProductService;
+    $scope.productList = [];
 
     // check if user is logged in
     UserFactory.isLoggedIn(function(user) {

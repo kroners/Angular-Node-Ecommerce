@@ -8,7 +8,7 @@ angular
 UserController.$inject = ['$rootScope', '$scope', '$http', '$location', 'UserFactory'];
 
 function UserController($rootScope, $scope, $http, $location, UserFactory) {
-  
+
   console.log("Inside User Controller");
 
   // var $scope = this; // not using $scope as best practices from John Papa, unless necessary
@@ -17,10 +17,10 @@ function UserController($rootScope, $scope, $http, $location, UserFactory) {
 
 	//console.log(usersFactory);
   //initializing variables inside the Controller
-  $scope.user = {};
+  $scope.user = {}; //informacion que ingresa al formulario de registro
   $scope.sessionUser = {};
   $scope.loggedIn = false;
-  $scope.loginUser = {};
+  $scope.loginUser = {}; // user infor que ingresa al formulario de login
   $scope.loginErrors = '';
   $scope.regErrors = {
         name       : '',
@@ -34,7 +34,7 @@ function UserController($rootScope, $scope, $http, $location, UserFactory) {
   $scope.registerUser = registerUser;
   $scope.logout = logout;
   $scope.toggle = toggle;
-  
+
   var errorMessages = {
       name        : 'First name field is required',
       lastName         : 'Last name field is required',
@@ -46,7 +46,7 @@ function UserController($rootScope, $scope, $http, $location, UserFactory) {
     $scope.mobile_drop = !$scope.mobile_drop;
   };
 
-  
+
 
   // Create user
   // Connect to factory to Create user
@@ -77,6 +77,11 @@ function UserController($rootScope, $scope, $http, $location, UserFactory) {
       console.log(data);
       console.log('Usuario Creado');
       $('#Register').modal('toggle');
+      $scope.user = {};
+      if (data.data.status == "SUCCESS") {
+        $scope.sessionUser = data.config.data.name;
+        $scope.loggedIn = true;
+      }
       // Aun no se añaden validators, por lo que solo se asigna la data de usuario al logueado, despues de ser creado.
       // $scope.sessionUser = data.user;
     })
@@ -105,6 +110,7 @@ function UserController($rootScope, $scope, $http, $location, UserFactory) {
       if (data) {
         //Yes User.
         if (!data.error) {
+          console.log(data);
           $scope.sessionUser = data;
           $scope.loggedIn = true;
 

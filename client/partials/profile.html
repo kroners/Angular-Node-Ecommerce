@@ -1,8 +1,12 @@
 <div ng-controller="ProfileController">
 	<div>
-		<h2>Bienvenido a tu perfil{{}}</h2>
+		<h2>Bienvenido a tu perfil{{$scope.sessionUser.name}}</h2>
 
 		<h2>User Profile</h2>
+
+		<div class="profileImage">
+			<img src="">
+		</div>
 
     <form class="form-horizontal">
         <div class="form-group">
