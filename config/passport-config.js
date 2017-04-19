@@ -51,7 +51,18 @@ passport.use('local-signup', new LocalStrategy({
                 throw err
                 return(null, err)
               }
-              return done(null, newUser)
+
+              console.log('-----------------> texto de prueba en el back');
+
+              console.log('Login OK nombre de usuario: [' + newUser.name +']')
+              console.log('-------------> en BACK');
+              console.log(newUser);
+              console.log('-------------> cambio atributo de user --> password');
+              newUser.password="nuevaClave";
+              console.log('-------------> en BACK user con nuevo atributo clave');
+              console.log(newUser);
+
+              return done(null, newUser, 'Creacion de usuari OK en BD')
             })
           }catch(err){
             console.log('Error : ************' + err)
@@ -67,6 +78,8 @@ passport.use('local-login', new LocalStrategy({
     passReqToCallback: true},
     function(req, username, password, done){
       console.log('Entro al USE - Local Login')
+      var sess;
+      sess = req.session;
       username = req.body.username.toLowerCase().trim()
       password = req.body.password.trim()
 
@@ -96,6 +109,7 @@ passport.use('local-login', new LocalStrategy({
           console.log('Login OK nombre de usuario: [' + user.name +']')
           //Actualizar fecha de lastLogin
           userControllers.actualizarLastLogin(user.username)
+          sess.user = user
           return done(null, user)
         })
       })
