@@ -24,23 +24,17 @@ module.exports = function(app, passport){
       console.log('--->Info : ' + info);
       console.log('--->Err  : ' + err);
       if(err){
-          console.log('cayo en error post signup routes');
-          return next(err);
+          console.log(err);
+          return res.status(500).send(info)
       }
-      //pruba mensaje de backend if(!user){return res.redirect('/signup')}
-      if(!user){
-        console.log('cayo en user no esta vacio en post signup routes');
+      if(user == false){
         return res.status(401).send(info)
       }
 
       req.logIn(user, function(err){
         if(err){return next(err)}
         //return res.redirect('/profile')
-          return res.status(200).json({
-            usuario: user.username,
-            nombre: user.name,
-            lastLogin: user.lastLogin
-          });
+          return res.status(200).send(info);
       })
     })(req, res, next);
   })
