@@ -1,30 +1,46 @@
 'use strict'
 
 module.exports = function(app, passport){
-  app.get('/', function(req, res){
-    res.send({message: 'Pagina de inicio para login y signup'})
-  });
+  // app.get('/', function(req, res){
+  //   res.send({message: 'Pagina de inicio para login y signup'})
+  // });
 
-  app.get('/login', function(req, res){
-    res.send({message: 'Pagina de Login'})
-  });
+  // app.get('/login', function(req, res){
+  //   res.send({message: 'Pagina de Login'})
+  // });
 
-  app.get('/signup', function(req, res){
-    res.send({message: 'Pagina de registro - sign up'})
-  });
-
+  // app.get('/signup', function(req, res){
+  //   res.send({message: 'Pagina de registro - sign up'})
+  // });
+/*
   app.get('/profile', function(req, res){
-    res.send({message: 'Perfil de usuario - Login OK'})
+    //res.send({message: 'Perfil de usuario - Login OK', status: "SUCCESS"});
+    res.status(200).send({message: 'Perfil de usuario - Login OK' })
   });
-
+*/
   app.post('/signup', function(req, res, next){
     passport.authenticate('local-signup', function(err, user, info){
-      if(err){return next(err)}
+      console.log('--->User : ' + user);
+      console.log('--->Info : ' + info);
+      console.log('--->Err  : ' + err);
+      if(err){
+          console.log('cayo en error post signup routes');
+          return next(err);
+      }
       //pruba mensaje de backend if(!user){return res.redirect('/signup')}
-      if(!user){return res.send(info)}
+      if(!user){
+        console.log('cayo en user no esta vacio en post signup routes');
+        return res.status(401).send(info)
+      }
+
       req.logIn(user, function(err){
         if(err){return next(err)}
-        return res.redirect('/profile')
+        //return res.redirect('/profile')
+          return res.status(200).json({
+            usuario: user.username,
+            nombre: user.name,
+            lastLogin: user.lastLogin
+          });
       })
     })(req, res, next);
   })

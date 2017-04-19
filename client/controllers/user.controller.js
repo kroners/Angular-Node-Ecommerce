@@ -8,105 +8,115 @@ angular
 UserController.$inject = ['$rootScope', '$scope', '$http', '$location', 'UserFactory'];
 
 function UserController($rootScope, $scope, $http, $location, UserFactory) {
-  var vm = this; // not using $scope as best practices from Jhon Papa, unless necessary
+  
+  console.log("Inside User Controller");
+
+  // var $scope = this; // not using $scope as best practices from John Papa, unless necessary
   // consider using $scope in a controller when publishing or subscribing events
   // using $emit, $broadcast, $on
 
 	//console.log(usersFactory);
   //initializing variables inside the Controller
-  vm.user = {};
-  vm.loggedUser = {};
-  vm.loggedIn = false;
-  vm.login = login;
-  vm.loginUser = {};
-  vm.registerUser = registerUser;
-  vm.logout = logout;
-  vm.toggle = toggle;
-  vm.loginErrors = '';
-  vm.regErrors = {
-        firstName       : '',
+  $scope.user = {};
+  $scope.sessionUser = {};
+  $scope.loggedIn = false;
+  $scope.loginUser = {};
+  $scope.loginErrors = '';
+  $scope.regErrors = {
+        name       : '',
         lastName        : '',
         password        : '',
         confirmPassword : ''
   };
+
+  //initializing function variables
+  $scope.login = login;
+  $scope.registerUser = registerUser;
+  $scope.logout = logout;
+  $scope.toggle = toggle;
+  
   var errorMessages = {
-      firstName        : 'First name field is required',
+      name        : 'First name field is required',
       lastName         : 'Last name field is required',
       email            : 'Last name field is required',
       password         : 'Password is required'
   };
 
   function toggle() {
-    vm.mobile_drop = !vm.mobile_drop;
+    $scope.mobile_drop = !$scope.mobile_drop;
   };
 
-  checkUserSession();
+  
 
-  //Create user
+  // Create user
   // Connect to factory to Create user
   // According to Jhon Papa, we should defer the Controller Logic to service
   function registerUser() {
-
+    var valid = true;
+    console.log('Registrando Nuevo usuario');
     //making inside Front End Validations
-    if ( !vm.user.firstName || vm.user.firstName.trim().length < 1 ) {
+    if ( !$scope.user.name || $scope.user.name.trim().length < 1 ) {
         valid = false;
-        vm.regErrors.firstName = errorMessages.firstName; }
-    if ( !vm.user.lastName || vm.user.lastName.trim().length < 1 ) {
+        $scope.regErrors.name = errorMessages.name; }
+    if ( !$scope.user.lastName || $scope.user.lastName.trim().length < 1 ) {
         valid = false;
-        vm.regErrors.lastName = errorMessages.lastName; }
-    if ( !vm.user.email || vm.user.email.trim().length < 1 ) {
+        $scope.regErrors.lastName = errorMessages.lastName; }
+    if ( !$scope.user.username || $scope.user.username.trim().length < 1 ) {
         valid = false;
-        vm.regErrors.email = errorMessages.email; }
-    if ( !vm.user.password || vm.user.password.trim().length < 1 ) {
+        $scope.regErrors.email = errorMessages.email; }
+    if ( !$scope.user.password || $scope.user.password.trim().length < 1 ) {
         valid = false;
-        vm.regErrors.password = errorMessages.password; }
-    if ( !vm.confirmPassword || !vm.user.password || vm.user.password != vm.confirmPassword ) {
+        $scope.regErrors.password = errorMessages.password; }
+    if ( !$scope.confirmPassword || !$scope.user.password || $scope.user.password != $scope.confirmPassword ) {
         valid = false;
-        vm.regErrors.confirmPassword = errorMessages.confirmPassword; }
+        $scope.regErrors.confirmPassword = errorMessages.confirmPassword; }
 
     // If user passes validations, then we continue to registerUser
     // Register inside Factories
-    UserFactory.registerUser(vm.user, function(data) {
+    UserFactory.registerUser($scope.user, function(data) {
       console.log(data);
       console.log('Usuario Creado');
-
+      $('#Register').modal('toggle');
       // Aun no se añaden validators, por lo que solo se asigna la data de usuario al logueado, despues de ser creado.
-      vm.loggedUser = data.user;
+      // $scope.sessionUser = data.user;
     })
   };
 
   // Search if user is LoggedIn
   function checkUserSession(){
-    UserFactory.isLoggedIn(vm.user)
+    console.log("The user " + $scope.user);
+    UserFactory.isLoggedIn($scope.user)
       .then(function() {
-        console.log(vm.user);
-        if(vm.user.id){
-          vm.loggedUser = vm.user;
-          vm.loggedIn = true;
+        console.log($scope.user);
+        if($scope.user.id){
+          $scope.sessionUser = $scope.user;
+          $scope.loggedIn = true;
         }
       })
   };
 
+  //checkUserSession();
+
   // User is Logging In
   function login () {
-    vm.loginErrors = '';
+    $scope.loginErrors = '';
 
-    UserFactory.login(vm.loginUser, function(data) {
+    UserFactory.login($scope.loginUser, function(data) {
       if (data) {
         //Yes User.
         if (!data.error) {
-          vm.loggedUser = data;
-          vm.loggedIn = true;
+          $scope.sessionUser = data;
+          $scope.loggedIn = true;
 
           $('#Login').modal('toggle');
-          vm.loginUser = {};
+          $scope.loginUser = {};
         } else {
           //Bad Password.
-          vm.loginErrors = 'Failed login, please check your email and password.';
+          $scope.loginErrors = 'Failed login, please check your email and password.';
         }
       //No User.
       } else{
-        vm.loginErrors = 'Failed login, please check your email and password.';
+        $scope.loginErrors = 'Failed login, please check your email and password.';
       }
     })
   };
@@ -114,7 +124,7 @@ function UserController($rootScope, $scope, $http, $location, UserFactory) {
   function logout() {
     // Log out through Passport, then clear local user data and redirect
     $http.get('/logout').success(function(){
-      $scope.loggedUser = {};
+      $scope.sessionUser = {};
       $scope.loggedIn = false;
     });
   };

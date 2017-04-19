@@ -38,7 +38,7 @@ passport.use('local-signup', new LocalStrategy({
             return done(null, false, {message: 'Error - El usuario ya esta en uso'})
           }else{
             console.log('Usuario disponible');
-	try{
+          try{
             var hora = momenttz().tz(configfile.server_time_zone).format()
             var newUser = new User()
             newUser.username = username
@@ -47,11 +47,23 @@ passport.use('local-signup', new LocalStrategy({
             newUser.lastLogin = null
             newUser.signUpDate = hora
             newUser.save(function(err){
+              console.log('grabando usuario');
               if(err){
                 throw err
                 return(null, err)
               }
-              return done(null, newUser)
+
+              console.log('-----------------> texto de prueba en el back');
+
+              console.log('Login OK nombre de usuario: [' + newUser.name +']')
+              console.log('-------------> en BACK');
+              console.log(newUser);
+              console.log('-------------> cambio atributo de user --> password');
+              newUser.password="nuevaClave";
+              console.log('-------------> en BACK user con nuevo atributo clave');
+              console.log(newUser);
+
+              return done(null, newUser, 'Creacion de usuari OK en BD')
             })
           }catch(err){
             console.log('Error : ************' + err)

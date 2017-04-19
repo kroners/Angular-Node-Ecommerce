@@ -1,0 +1,165 @@
+<!-- This is the Main Admin Panel -->
+<!-- <script src="dirPagination.js"></script> -->
+<div id="adminheader">
+    <h3>Administrative Panel</h3></div>
+
+<div id="admin_container" ng-controller='adminController' ng-show='loggedIn'>
+
+    <!-- Left Admin panel -->
+    <div class="col-sm-12 admin_container">
+        <a href="https://accounts.google.com/servicelogin?service=analytics"><button class="btn btn-primary analytics"> To Google Analytics</button></a>
+
+        <div class="row">
+            <div><!--Helps control Tab CSS<-->
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a showtab="" href="#causes" aria-controls="home" role="tab" data-toggle="tab">CAUSES</a></li>
+                    <li role="presentation"><a showtab="" href="#users" aria-controls="profile" role="tab" data-toggle="tab">USERS</a></li>
+                    <li role="presentation"><a showtab="" href="#guests" aria-controls="messages" role="tab" data-toggle="tab">GUEST USERS</a></li>
+                    <li role="presentation"><a showtab="" href="#pendingcauses" aria-controls="messages" role="tab" data-toggle="tab">PENDING CAUSES</a></li>
+                </ul>
+
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <!-- Causes Tab in Admin Panel -->
+                    <div role="tabpanel" class="tab-pane active" id="causes">
+                        <a href="#causeAddadmin"><button id="addcause" class="admin_buttons btn btn-primary analytics">Create New Cause</button></a>
+                        <button class="btn btn-primary analytics" ng-click="enableAllCauses()">Enable All</button>
+                        <button class="btn btn-primary analytics" ng-click="disableAllCauses()">Disable All</button>
+                        <table class="table admintable">
+                            <thead>
+                                <th><a href="" ng-click="causeSort='name'; causeSortReverse=!causeSortReverse;">Cause</a></th>
+                                <th><a href="" ng-click="causeSort='supports'; causeSortReverse=!causeSortReverse;"># of User Prints</a></th>
+                                <th><a href="" ng-click="causeSort='guests_causes'; causeSortReverse=!causeSortReverse;"># of Guest Prints</a></th>
+                                <th><a href="" ng-click="causeSort='createdAt'; causeSortReverse=!causeSortReverse;">Created</a></th>
+                                <th><a href="" ng-click="causeSort='updatedAt'; causeSortReverse=!causeSortReverse;">Updated</a></th>
+                                <th><a href="" ng-click="causeSort='enabled'; causeSortReverse=!causeSortReverse;">Enabled</a></th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                                <th>Text</th>
+                                <th>Email</th>
+                            </thead>
+                            <tbody>
+                                <input type="text" class="adminsearch" ng-model="filter_causes" placeholder=" Search Causes"><br>
+                                <dir-pagination-controls max-size="10" direction-links="true" boundary-links="true"></dir-pagination-controls>
+                                <tr dir-paginate="cause in causes |orderBy:causeSort:causeSortReverse| filter: filter_causes | itemsPerPage:15">
+                                    <td><a href="#/getSingleCause/{{cause.id}}">{{cause.name}}</a></td>
+                                    <td>{{cause.supports - cause.guests_causes}}</td>
+                                    <td>{{cause.guests_causes}}</td>
+                                    <td>{{cause.createdAt | date:"h:mm a '-' MM/dd/yy"}}</span></td>
+                                    <td>{{cause.updatedAt | date:"h:mm a '-' MM/dd/yy"}}</span></td>
+                                    <td><input type="checkbox" ng-click='toggleCause(cause)' ng-checked="{{cause.enabled}}"></td>
+                                    <td><a href="#/causeadmin/{{cause.id}}"><button id="editCause" class="admin_panel">Edit </button></a></td>
+                                    <td><button id="deletecause" class="admin_panel" ng-click='deleteCause(cause)'>Delete</button></td>
+                                    <td><button id="sendText" class="admin_panel" ng-click='sendText(cause)'>Send Text</button></td>
+                                    <td><button id="sendEmail" class="admin_panel" ng-click='sendEmail(cause)'>Send Email</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div> <!-- End Causes tab -->
+
+                    <!-- Users Tab of Admin Panel -->
+                    <div role="tabpanel" class="tab-pane" id="users">
+                        <table class="table admintable">
+                            <thead>
+                                <th><a href="" ng-click="userSort='id'; userSortReverse=!userSortReverse;">ID#</a></th>
+                                <th><a href="" ng-click="userSort='first_name'; userSortReverse=!userSortReverse;">First Name</a></th>
+                                <th><a href="" ng-click="userSort='last_name'; userSortReverse=!userSortReverse;">Last Name</a></th>
+                                <th><a href="" ng-click="userSort='email'; userSortReverse=!userSortReverse;">Email</a></th>
+                                <th><a href="" ng-click="userSort='supports'; userSortReverse=!userSortReverse;"># Causes</a></th>
+                                <th><a href="" ng-click="userSort='city'; userSortReverse=!userSortReverse;">City</a></th>
+                                <th><a href="" ng-click="userSort='state'; userSortReverse=!userSortReverse;">State</a></th>
+                                <th><a href="" ng-click="userSort='phone_number'; userSortReverse=!userSortReverse;">Phone #</a></th>
+                                <th><a href="" ng-click="userSort='text_notification'; userSortReverse=!userSortReverse;">Text?</a></th>
+                                <th><a href="" ng-click="userSort='email_notifacation'; userSortReverse=!userSortReverse;">Email?</a></th>
+                                <th><a href="" ng-click="userSort='admin'; userSortReverse=!userSortReverse;">Admin?</a></th>
+                                <th><a href="" ng-click="userSort='login_count'; userSortReverse=!userSortReverse;"># Logins</a></th>
+                                <th><a href="" ng-click="userSort='updatedAt'; userSortReverse=!userSortReverse;">Last Activity</a></th>
+                                <th>Delete</th>
+                            </thead>
+                            <tbody>
+                                <input type="text" class="adminsearch" ng-model="filter_users" placeholder=" Search Users"><br>
+                                <dir-pagination-controls max-size="10" direction-links="true" boundary-links="true"></dir-pagination-controls>
+                                <tr dir-paginate="user in users |orderBy:userSort:userSortReverse| filter: filter_users | itemsPerPage:15">
+                                    <td>{{user.id}}</td>
+                                    <td><a href="#/useractivity/{{user.id}}">{{user.first_name}}</a></td>
+                                    <td><a href="#/useractivity/{{user.id}}">{{user.last_name}}</a></td>
+                                    <td>{{user.email}}</td>
+                                    <td>{{user.supports}}</td>
+                                    <td>{{user.city}}</td>
+                                    <td>{{user.state}}</td>
+                                    <td>{{user.phone_number}}</td>
+                                    <td>{{user.phone_notification}}</td>
+                                    <td>{{user.email_notification}}</td>
+                                    <td>{{user.admin}}</td>
+                                    <td>{{user.login_count}}</td>
+                                    <td>{{user.updatedAt | date:"h:mm a '-' MM/dd/yy"}}</span></td>
+                                    <td><button id="deletecause" class="admin_panel" ng-click='delUser(user)'>Delete</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div> <!-- End Users tab -->
+
+                    <!-- Guests Tab of Admin Panel -->
+                    <div role="tabpanel" class="tab-pane" id="guests">
+                        <table class="table admintable">
+                            <thead>
+                                <th><a href="" ng-click="guestSort='id'; guestSortReverse=!guestSortReverse;">Guest ID#</a></th>
+                                <th><a href="" ng-click="guestSort='first_name'; guestSortReverse=!guestSortReverse;">First Name</a></th>
+                                <th><a href="" ng-click="guestSort='last_name'; guestSortReverse=!guestSortReverse;">Last Name</a></th>
+                                <th><a href="" ng-click="guestSort='cause_id'; guestSortReverse=!guestSortReverse;">Cause ID#</a></th>
+                                <th><a href="" ng-click="guestSort='cause_name'; guestSortReverse=!guestSortReverse;">Cause Name</a></th>
+                                <th><a href="" ng-click="guestSort='city'; guestSortReverse=!guestSortReverse;">City</a></th>
+                                <th><a href="" ng-click="guestSort='state'; guestSortReverse=!guestSortReverse;">State</a></th>
+                                <th><a href="" ng-click="guestSort='createdAt'; guestSortReverse=!guestSortReverse;">Created At</a></th>
+                                <th>Delete</th>
+                            </thead>
+                            <tbody>
+                                <input type="text" class="adminsearch" ng-model="filter_guests" placeholder=" Search Guest Users"><br>
+                                <dir-pagination-controls max-size="10" direction-links="true" boundary-links="true"></dir-pagination-controls>
+                                <tr dir-paginate="guest in guests |orderBy:guestSort:guestSortReverse| filter: filter_guests | itemsPerPage:15">
+                                    <td>{{guest.id}}</td>
+                                    <td>{{guest.first_name}}</td>
+                                    <td>{{guest.last_name}}</td>
+                                    <td>{{guest.cause_id}}</td>
+                                    <td>{{guest.cause_name}}</td>
+                                    <td>{{guest.city}}</td>
+                                    <td>{{guest.state}}</td>
+                                    <td>{{guest.createdAt | date:"h:mm a '-' MM/dd/yy"}}</td>
+                                    <td><button id="deletecause" class="admin_panel" ng-click='delGuest(guest)'>Delete</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div><!-- End Guests tab -->
+
+                    <!-- Pending Causes Tab of Admin Panel -->
+                    <div role="tabpanel" class="tab-pane " id="pendingcauses">
+                        <table class="table admintable">
+                            <thead>
+                                <th><a href="" ng-click="pendingcauseSort='name'; pendingcauseSortReverse=!pendingcauseSortReverse;"> Cause</a></th>
+                                <th><a href="" ng-click="pendingcauseSort='first_name'; pendingcauseSortReverse=!pendingcauseSortReverse;"> Volunteer</a></th>
+                                <th><a href="" ng-click="pendingcauseSort='email'; pendingcauseSortReverse=!pendingcauseSortReverse;"> Email</a></th>
+                                <th><a href="" ng-click="pendingcauseSort='createdAt'; pendingcauseSortReverse=!pendingcauseSortReverse;"> Created At</a></th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </thead>
+                            <tbody>
+                                <input type="text" class="adminsearch" ng-model="filter_pendingcauses" placeholder=" Search Pending"><br>
+                                <dir-pagination-controls max-size="10" direction-links="true" boundary-links="true"></dir-pagination-controls>
+                               <tr dir-paginate="pendingcause in pendingcauses |orderBy:pendingcauseSort:pendingcauseSortReverse| filter: filter_pendingcauses | itemsPerPage:15">
+                                    <td>{{pendingcause.name}}</td>
+                                    <td>{{pendingcause.first_name}} {{pendingcause.last_name}}</td>
+                                    <td>{{pendingcause.email}}</td>
+                                    <td>{{pendingcause.createdAt | date:"MM/dd/yyyy 'at' h:mma"}}</td>
+                                    <td><a href="#/pendingcauseadmin/{{pendingcause.id}}"><button id="editPendingCause" class="admin_panel">Edit & Add</button></a></td>
+                                    <td><button id="deletependingcause" class="admin_panel" ng-click='deletePendCause(pendingcause)'>Delete</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div><!-- End Pendingcauses tab -->
+                </div><!-- End of tabs container-->
+            </div><!-- div for CSS purposes w/ admintabs -->
+        </div><!-- End of row-->
+    </div><!-- End Admin Container -->
+</div> <!-- End Admin Controller Container -->

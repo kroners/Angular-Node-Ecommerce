@@ -5,60 +5,220 @@
 	<title>Super Farmacia Peru</title>
 
 	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="keywords" content="Farmacia DrugStore MEAN angular express node, Responsive web template, Bootstrap Web Templates, Andriod Compatible web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
 	<meta name="author" content="know_it.pe">
 	<meta name="description" content="Tu nueva farmacia al alcance de tu localidad"/>
 
 	<!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom CSS -->
-    <link href="css/heroic-features.css" rel="stylesheet">
+  <!-- Custom CSS -->
+<!--   <link href="css/heroic-features.css" rel="stylesheet"> -->
+
+  <!--theme style-->
+  <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />  
+  <script src="js/jquery.min.js"></script>
+
+  <!--//theme style-->
+  <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+  <!-- start menu -->
+  <script src="js/simpleCart.min.js"> </script>
+  <!-- start menu -->
+  <link href="css/memenu.css" rel="stylesheet" type="text/css" media="all" />
+  
+  <!--script>$(document).ready(function(){$(".memenu").memenu();});</script--> 
+  <!-- /start menu -->
 
 </head >
 <body >
   <div ng-controller="UserController">
 	<!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
+    <!-- <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"> -->
+        <!-- <div class="container"> -->
             <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
+            <div class="header-top">
+              <div class="header-bottom">
+<!--                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Where are</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">Le DrugStore</a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="#">About</a>
+                </button> -->
+                <div class="logo">
+                  <h1><a href="index.html">Le Drug Store</a></h1>          
+                </div>
+
+                <div class="top-nav">
+                  <ul class="memenu skyblue">
+                    <li class="active"><a href="index.html">Home</a></li>
+                    <li class="grid"><a href="#">Products</a>
+                      <div class="mepanel">
+                        <div class="row">
+                          <div class="col1 me-one">
+                            <h4>Shop</h4>
+                            <ul>
+                              <li><a href="product.html">New Arrivals</a></li>
+                              <li><a href="product.html">Home</a></li>
+                              <li><a href="product.html">Decorates</a></li>
+                              <li><a href="product.html">Accessories</a></li>
+                              <li><a href="product.html">Kids</a></li>
+                              <li><a href="product.html">Login</a></li>
+                              <li><a href="product.html">Brands</a></li>
+                              <li><a href="product.html">My Shopping Bag</a></li>
+                            </ul>
+                          </div>
+                          <div class="col1 me-one">
+                            <h4>Type</h4>
+                            <ul>
+                              <li><a href="product.html">Diwali Lights</a></li>
+                              <li><a href="product.html">Tube Lights</a></li>
+                              <li><a href="product.html">Bulbs</a></li>
+                              <li><a href="product.html">Ceiling Lights</a></li>
+                              <li><a href="product.html">Accessories</a></li>
+                              <li><a href="product.html">Lanterns</a></li>
+                            </ul> 
+                          </div>
+                          <div class="col1 me-one">
+                            <h4>Popular Brands</h4>
+                            <ul>
+                              <li><a href="product.html">Everyday</a></li>
+                              <li><a href="product.html">Philips</a></li>
+                              <li><a href="product.html">Havells</a></li>
+                              <li><a href="product.html">Wipro</a></li>
+                              <li><a href="product.html">Jaguar</a></li>
+                              <li><a href="product.html">Ave</a></li>
+                              <li><a href="product.html">Gold Medal</a></li>
+                              <li><a href="product.html">Anchor</a></li>
+                            </ul> 
+                          </div>
+                        </div>
+                      </div>
                     </li>
-                    <li>
-                        <a href="#">Services</a>
-                    </li>
-                    <li>
-                        <a href="#">Contact</a>
-                    </li>
-                    <li>
+                    <!-- <li class="grid"><a href="typo.html">Typo</a></li> -->
+                    <li class="grid"><a href="contact.html">Contact</a></li>
+                    <li class="grid">
                         <a data-toggle="modal" data-target="#Register" ng-if='!loggedIn'>Register</a>
                         <a href="#/profile" ng-if='loggedIn'>Profile</a>
                     </li>
-                    <li>
+                    <li class="grid">
                         <a data-toggle="modal" data-target="#Login" ng-if='!loggedIn'>Login</a>
                         <a href="" ng-click='logout()' ng-if='loggedIn'>Logout</a>
-                    </li>
-                </ul>
+                    </li>          
+                  </ul>       
+                 </div>
+              </div>
+              <div class="cart box_1">
+                <a href="checkout.html">
+                <div class="total">
+                  <span class="simpleCart_total"></span> (<span id="simpleCart_quantity" class="simpleCart_quantity"></span>)
+                </div>
+                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+                </a>
+                <p><a href="javascript:;" class="simpleCart_empty">Empty Cart</a></p>
+                <div class="clearfix"> </div>
+              </div>
+              <div class="clearfix"> </div>
+       <!---->       
             </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
+            <div class="clearfix"> </div>
 
+            <!-- /.navbar-collapse -->
+        <!-- </div> -->
+        <!-- /.container -->
+    <!-- </nav> -->
+    <div class="container">
+      <div class="modal fade" id="Login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title">LOGIN</h4>
+              </div>
+              <div class="modal-body col-md-offset-2">
+                  <form class="form-horizontal">
+
+                      <div class="form-group">
+                          <div class="col-sm-10">
+                              <input ng-model="vm.loginUser.email" type="text" class="form-control" id="login-email" placeholder="Email Address">
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <div class="col-sm-10">
+                              <input ng-model="vm.loginUser.password" type="password" class="form-control" id="login-password" placeholder="Password">
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <div class="col-sm-3">
+                              <button type="button" class="btn btn-primary" ng-click="login()">Login</button>
+                          </div>
+                          <div class="col-sm-7">
+                              <span class="loginErrors" ng-bind="loginErrors"></span>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <div class="col-sm-10">
+                              <a href="/#/forgottenPassword" ng-click="close()">Forgot Password</a>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div><!-- /.modal-content -->
+</div>
+<div class="modal fade" id="Register" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title">REGISTRATION</h4>
+                  </div>
+                  <div class="modal-body col-md-offset-2">
+                      <form class="form-horizontal">
+                          <!-- First & Last Name Error Messages -->
+                          <!-- First & Last Name Input Fields -->
+                          <div class="form-group">
+                              <div class="col-sm-5">
+                                  <input type="text" class="form-control" id="first-name" placeholder="First Name" ng-model="user.name">
+                                  <span class="regErrors" ng-bind="regErrors.name"></span>
+                              </div>
+                              <div class="col-sm-5">
+                                  <input type="text" class="form-control" id="last-name" placeholder="Last Name" ng-model="user.lastName">
+                                  <span class="regErrors" ng-bind="regErrors.lastName"></span>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <div class="col-sm-10">
+                                  <input type="email" class="form-control" id="email" placeholder="Email Address" ng-model="user.username">
+                                  <span class="regErrors" ng-bind="regErrors.email"></span>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <div class="col-sm-10">
+                                  <input type="password" class="form-control" id="password" placeholder="Password" ng-model="user.password">
+                                  <span class="regErrors" ng-bind="regErrors.password"></span>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <div class="col-sm-10">
+                                  <input type="password" class="form-control" id="confirm-password" placeholder="Confirm Password" ng-model="confirmPassword">
+                                  <span class="regErrors" ng-bind="regErrors.confirmPassword"></span>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <div class="col-sm-10">
+                                  <button type="button" class="btn btn-primary" ng-click="registerUser()">REGISTER</button>
+                                  <button type="button" class="btn" data-dismiss="modal">CANCEL</button>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div><!-- /.modal-content -->
+    </div>
+    </div>
 <!-- Page Content -->
     <div class="container">
 
@@ -77,6 +237,25 @@
         </footer>
       </div>
     </div>
+        <!-- jQuery --> 
+    <script src="js/jquery.js"></script>
+    <script src="js/memenu.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+     <!--
+    <script src="js/bootstrap.js"> </script>-->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/responsiveslides.min.js"></script>
+    <script>  
+      $(function () {
+        $("#slider").responsiveSlides({
+          auto: true,
+          nav: true,
+          speed: 500,
+          namespace: "callbacks",
+          pager: false,
+        });
+      });
+    </script> 
     <!-- /.container -->
     <script src="/libs/angular/angular.min.js"></script>
     <script src="/libs/angular-resource/angular-resource.min.js" ></script>
@@ -103,11 +282,6 @@
     <script src="factories/user.factory.js"></script>
     <script src="controllers/product.controller.js"></script>
     <script src="factories/product.factory.js"></script>
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
 
 </body>
 </html>
