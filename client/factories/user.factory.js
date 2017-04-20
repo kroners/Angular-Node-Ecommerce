@@ -50,25 +50,6 @@
     	    })
     	  };
 
-
-        function login (user, callback) {
-	  	    $http.post('/login', {'data':user}).then(function(data) {
-                //Returns the User data that will be kept in Session
-                console.log(data);
-    	  	})
-        };
-        // Manual login status check, to be used on controller loads
-        function isLoggedIn (callback){
-            $http.get('/checkLogin').then(function(data){
-                if(data.id){
-                    callback(data);
-                }
-                else{
-                    callback('NO');
-                }
-            });
-        };
-
         // Grab user by ID, send back user data
         function getUser (userid, callback) {
             $http.post('/getUserInfo', {userid:userid}).success(function(data) {

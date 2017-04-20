@@ -29,6 +29,8 @@
   <!-- start menu -->
   <link href="css/memenu.css" rel="stylesheet" type="text/css" media="all" />
   
+
+  <link href="libs/sweetalert/dist/sweetalert.css" rel="stylesheet" type="text/css"/>
   <!--script>$(document).ready(function(){$(".memenu").memenu();});</script--> 
   <!-- /start menu -->
 
@@ -142,12 +144,12 @@
 
                       <div class="form-group">
                           <div class="col-sm-10">
-                              <input ng-model="vm.loginUser.email" type="text" class="form-control" id="login-email" placeholder="Email Address">
+                              <input ng-model="credentials.usermail" type="text" class="form-control" id="login-email" placeholder="Ingresar Email">
                           </div>
                       </div>
                       <div class="form-group">
                           <div class="col-sm-10">
-                              <input ng-model="vm.loginUser.password" type="password" class="form-control" id="login-password" placeholder="Password">
+                              <input ng-model="credentials.password" type="password" class="form-control" id="login-password" placeholder="Ingresar Contraseña">
                           </div>
                       </div>
                       <div class="form-group">
@@ -275,9 +277,12 @@
     <script src="/libs/angular-aria/angular-aria.js"></script>
     <script src="/libs/angular-animate/angular-animate.js"></script>
     <script src="/libs/angular-material/angular-material.js"></script>
+    <script src="/libs/ngSweetAlert/SweetAlert.min.js"></script>
+    <script src="/libs/sweetalert/dist/sweetalert.min.js"></script>
 
     <script src="app.module.js"></script>
     <script src="route-config.js"></script>
+    <script src="app.constant.js"></script>
     <script src="controllers/user.controller.js"></script>
     <script src="factories/user.factory.js"></script>
     <script src="controllers/product.controller.js"></script>

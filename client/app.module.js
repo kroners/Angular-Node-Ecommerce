@@ -10,7 +10,8 @@ angular
 		'ngAnimate',
 		'ui.router',
 		'ngRoute',
-		'ngCookies'
+		'ngCookies',
+		'oitozero.ngSweetAlert'
 		]);
 
 		angular
