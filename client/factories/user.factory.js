@@ -20,8 +20,8 @@
 		// We create the functions below, and the factorie will be exposed as a service.
 		var service = {   // this variable could also be called factory
 			registerUser: registerUser,
-			login: login,
-			isLoggedIn: isLoggedIn,
+			// login: login,
+			// isLoggedIn: isLoggedIn,
 			getUser: getUser,
 			getUserByEmail: getUserByEmail,
 			resetPassword: resetPassword,

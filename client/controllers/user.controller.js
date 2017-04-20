@@ -5,7 +5,7 @@ angular
 	.module('farmacia')
 	.controller('UserController', UserController);
 
-UserController.$inject = ['$rootScope', '$scope', '$http', '$location', 'AuthService', 'UserFactory'];
+UserController.$inject = ['$rootScope', '$scope', '$http', '$location', 'AuthService', 'UserService','UserFactory'];
 
 function UserController($rootScope, $scope, $http, $location, AuthService, UserService, UserFactory, AUTH_EVENTS) {
 
@@ -22,7 +22,8 @@ function UserController($rootScope, $scope, $http, $location, AuthService, UserS
   $scope.credentials = { // user infor que ingresa al formulario de login
     usermail: '',
     password: ''
-  }; 
+  };
+  $scope.userService = UserService;
 
   $scope.loginErrors = '';
   $scope.regErrors = {
@@ -51,7 +52,7 @@ function UserController($rootScope, $scope, $http, $location, AuthService, UserS
     
     console.log('Registrando Nuevo usuario');
     // Llamamos al UserService para realizar ahi las validaciones y seguir al factory con creacion de Usuario
-    UserService.crearUsuario($scope.user, function(res) {
+    UserService.crearUsuario($scope.user).then(function(res) {
       console.log(res);
       if (res.regErrors) {
 
@@ -80,7 +81,7 @@ function UserController($rootScope, $scope, $http, $location, AuthService, UserS
         // $scope.sessionUser = data.user;
         SweetAlert.swal("Bienvenido", "Te has registrado exitosamente", "success");
       }
-    })
+    });
 
   };
 

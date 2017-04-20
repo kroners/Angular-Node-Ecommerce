@@ -5,65 +5,96 @@
 		.module('farmacia')
 		.service('UserService', UserService)
 
-	UserService.$inject = ['UserFactory'];
+	UserService.$inject = ['$q','UserFactory'];
 
-	function UserService (UserFactory) {
+	function UserService ($q, UserFactory) {
 		console.log("Dentro del UserService");
 
-		var self = {
-			'usuarios': [],
-			'isSaving': false,
-			'nuevoUser': null,
-			'valid': true,
-			'userSelected': null,
-			'errorMessages' = {
+		var usuarios = [];
+		var isSaving = false;
+		var nuevoUser = null;
+		var valid = true;
+		var userSelected = null;
+		var errorMessages = {
 				name: 'First name field is required',
 				lastName: 'Last name field is required',
 				email: 'Last name field is required',
 				password: 'Password is required'
-			},
-			'regErrors':{},
-			validarErrorRegistro: function (nuevoUsuario){
-				self.nuevoUser = nuevoUsuario;
-				// Se empieza con las validaciones
-				if ( !self.nuevoUser.name || self.nuevoUser.name.trim().length < 1 ) {
-					self.valid = false;
-					self.regErrors.name = self.errorMessages.name; 
-				}
-				if ( !self.nuevoUser.lastName || self.nuevoUser.lastName.trim().length < 1 ) {
-					self.valid = false;
-					self.regErrors.lastName = self.errorMessages.lastName; 
-				}
-				if ( !self.nuevoUser.username || self.nuevoUser.username.trim().length < 1 ) {
-					self.valid = false;
-					self.regErrors.email = self.errorMessages.email; 
-				}
-				if ( !self.nuevoUser.password || self.nuevoUser.password.trim().length < 1 ) {
-					self.valid = false;
-					self.regErrors.password = self.errorMessages.password; 
-				}
-			},
-			crearUsuario: function(nuevoUsuario) {
-				console.log("Funcion crearUsuario en UserService");
-				// realzamos las validaciones llamando a la funciona anterior, la que nos realizara los cambios
-				// respectivos a las variables
-				self.validarErrorRegistro(nuevoUsuario);
-				if (self.valid) {
-					console.log("Se pasaron las validaciones");
-					UserFactory.registerUser(nuevoUsuario, function(res){
-						console.log(res);
-						self.nuevoUser = null;
-						self.regErrors = {};
-						return res;
-					};
-				} else {
-					return self.regErrors;
-				}
-			}
-			
-		}
+			};
+		var regErrors = {};
+		var self = {
+			usuarios: usuarios,
+			isSaving: isSaving,
+			nuevoUser: nuevoUser,
+			valid: valid,
+			userSelected: userSelected,
+			errorMessages: errorMessages,
+			regErrors: regErrors,
+			validarErrorRegistro: validarErrorRegistro,
+			crearUsuario: crearUsuario			
+		};
 
 		return self;
+
+		function validarErrorRegistro (nuevoUsuario){
+			console.log(self.valid);
+			console.log(valid);
+			console.log(nuevoUser);
+			console.log(self.nuevoUser);
+			nuevoUser = nuevoUsuario;
+			console.log(nuevoUser);
+			// Se empieza con las validaciones
+			if ( !nuevoUser.name || nuevoUser.name.trim().length < 1 ) {
+				valid = false;
+				regErrors.name = errorMessages.name; 
+			}
+			if ( !nuevoUser.lastName || nuevoUser.lastName.trim().length < 1 ) {
+				valid = false;
+				regErrors.lastName = errorMessages.lastName; 
+			}
+			if ( !nuevoUser.username || nuevoUser.username.trim().length < 1 ) {
+				valid = false;
+				regErrors.email = errorMessages.email; 
+			}
+			if ( !nuevoUser.password || nuevoUser.password.trim().length < 1 ) {
+				valid = false;
+				regErrors.password = errorMessages.password; 
+			}
+			console.log(valid);
+		}
+
+		function crearUsuario(nuevoUsuario) {
+			console.log("Funcion crearUsuario en UserService");
+			console.log(nuevoUsuario);
+			var d = $q.defer();
+			// realzamos las validaciones llamando a la funciona anterior, la que nos realizara los cambios
+			// respectivos a las variables
+			validarErrorRegistro(nuevoUsuario);
+			console.log(self.valid);
+			console.log(valid);
+			console.log(nuevoUser);
+			console.log(self.nuevoUser);
+			if (valid) {
+				console.log("Se pasaron las validaciones");
+				isSaving = true;
+				UserFactory.registerUser(nuevoUsuario).$promise.then(function(res){
+					console.log(res);
+					isSaving = false;
+					nuevoUser = null;
+					regErrors = {};
+					// return res;
+					userSelected = res;
+					d.resolve()
+				});
+				return d.promise;
+			} else {
+				console.log(self);
+				d.reject(self.regErrors);
+				return d.promise;
+			}
+		}
+
+
 	}
 
 })();
