@@ -81,6 +81,9 @@ function UserController($rootScope, $scope, $http, $location, AuthService, UserS
         // $scope.sessionUser = data.user;
         SweetAlert.swal("Bienvenido", "Te has registrado exitosamente", "success");
       }
+    }, function(error){
+      // printing error handled by then
+      console.log('error', error);
     });
 
   };

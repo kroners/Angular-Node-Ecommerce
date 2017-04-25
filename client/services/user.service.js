@@ -77,16 +77,20 @@
 			if (valid) {
 				console.log("Se pasaron las validaciones");
 				isSaving = true;
-				UserFactory.registerUser(nuevoUsuario).$promise.then(function(res){
-					console.log(res);
+				// You don't need to return a promise in this case, because you are using a callback. 
+				// Callbacks and promises are the two ends of the spectrum. 
+				// UserFactory.registerUser(nuevoUsuario).$promise.then(function(response){
+				UserFactory.registerUser(nuevoUsuario).then(function(response){
+					console.log(response);
 					isSaving = false;
 					nuevoUser = null;
 					regErrors = {};
-					// return res;
-					userSelected = res;
-					d.resolve()
+					// return response;
+					userSelected = response;
+					d.resolve();
+					console.log(d);
+					console.log(d.resolve());
 				});
-				return d.promise;
 			} else {
 				console.log(self);
 				d.reject(self.regErrors);

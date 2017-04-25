@@ -38,15 +38,18 @@
 		return service;    // this variable could also be called factory
 
 		// we avoid using functions expressions and instead used function declarations as below
-		function registerUser(user, callback) {
+		function registerUser(user) {
             console.log('Inside registerUser Factory');
             console.log(user);
-			$http.post('/signup', user).then(function(data) {
+			return $http.post('/signup', user).then(function(data) {
                 // Returns random string in data.string
                 console.log(data);
-                if (callback && typeof callback == 'function') {
-                    callback(data);
-                }
+                // si uso promises ya no es necesario usar callbacks
+                // if (callback && typeof callback == 'function') {
+                //     callback(data);
+                // }
+                // solo tengo que hacer un return a la data
+                return data.data;
     	    })
     	  };
 
