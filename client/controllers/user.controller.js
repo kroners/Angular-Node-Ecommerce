@@ -5,9 +5,9 @@ angular
 	.module('farmacia')
 	.controller('UserController', UserController);
 
-UserController.$inject = ['$rootScope', '$scope', '$http', '$location', 'AuthService', 'UserService','UserFactory'];
+UserController.$inject = ['$rootScope', '$scope', '$http', '$location', 'AuthService', 'UserService','UserFactory','SweetAlert'];
 
-function UserController($rootScope, $scope, $http, $location, AuthService, UserService, UserFactory, AUTH_EVENTS) {
+function UserController($rootScope, $scope, $http, $location, AuthService, UserService, UserFactory, AUTH_EVENTS, SweetAlert) {
 
   console.log("Inside User Controller");
 
@@ -49,42 +49,70 @@ function UserController($rootScope, $scope, $http, $location, AuthService, UserS
   // Connect to factory to Create user
   // According to Jhon Papa, we should defer the Controller Logic to service
   function registerUser() {
-    
+
+    // define the service
+    var userServ = UserService;
     console.log('Registrando Nuevo usuario');
     // Llamamos al UserService para realizar ahi las validaciones y seguir al factory con creacion de Usuario
-    UserService.crearUsuario($scope.user).then(function(res) {
-      console.log(res);
-      if (res.regErrors) {
+    UserService.crearUsuario($scope.user)
+    console.log(userServ);
 
-        SweetAlert.swal("Error al Registrar", res.regErrors, "warning");
-        SweetAlert.swal({
-           title: "Are you sure?",
-           text: "Your will not be able to recover this imaginary file!",
-           type: "warning",
-           showCancelButton: true,
-           confirmButtonColor: "#DD6B55",
-           confirmButtonText: "Yes, delete it!",
-           closeOnConfirm: false}, 
-        function(){ 
-           SweetAlert.swal("Booyah!");
-        });
-        $scope.user = {}; // En error se borran los campos para llenar el registro
-      } else {
-        console.log('Usuario Creado'); // si no se presentan errores , el usuario deberia estar creado
-        $('#Register').modal('toggle');
-        $scope.user = {};
-        // if (res.data.status == "SUCCESS") {
-        //   $scope.sessionUser = res.config.data.name;
-        //   $scope.loggedIn = true;
-        // }
-        // Aun no se añaden validators, por lo que solo se asigna la data de usuario al logueado, despues de ser creado.
-        // $scope.sessionUser = data.user;
-        SweetAlert.swal("Bienvenido", "Te has registrado exitosamente", "success");
-      }
-    }, function(error){
-      // printing error handled by then
-      console.log('error', error);
-    });
+    if (!UserService.regErrors){
+
+      console.log('Usuario Creado'); // si no se presentan errores , el usuario deberia estar creado
+      $('#Register').modal('toggle');
+      $scope.user = {};
+      swal("Te has registrado exitosamente");
+
+    } else if (UserService.regErrors) {
+      SweetAlert.swal("Error al Registrar", res.regErrors, "warning");
+      SweetAlert.swal({
+         title: "Are you sure?",
+         text: "Your will not be able to recover this imaginary file!",
+         type: "warning",
+         showCancelButton: true,
+         confirmButtonColor: "#DD6B55",
+         confirmButtonText: "Yes, delete it!",
+         closeOnConfirm: false},
+      function(){
+         SweetAlert.swal("Booyah!");
+      });
+      $scope.user = {}; // En error se borran los campos para llenar el registro
+    }
+
+    // .then(function(res) {
+    //   console.log(res);
+    //   if (res.regErrors) {
+    //
+    //     SweetAlert.swal("Error al Registrar", res.regErrors, "warning");
+    //     SweetAlert.swal({
+    //        title: "Are you sure?",
+    //        text: "Your will not be able to recover this imaginary file!",
+    //        type: "warning",
+    //        showCancelButton: true,
+    //        confirmButtonColor: "#DD6B55",
+    //        confirmButtonText: "Yes, delete it!",
+    //        closeOnConfirm: false},
+    //     function(){
+    //        SweetAlert.swal("Booyah!");
+    //     });
+    //     $scope.user = {}; // En error se borran los campos para llenar el registro
+    //   } else {
+    //     console.log('Usuario Creado'); // si no se presentan errores , el usuario deberia estar creado
+    //     $('#Register').modal('toggle');
+    //     $scope.user = {};
+    //     // if (res.data.status == "SUCCESS") {
+    //     //   $scope.sessionUser = res.config.data.name;
+    //     //   $scope.loggedIn = true;
+    //     // }
+    //     // Aun no se añaden validators, por lo que solo se asigna la data de usuario al logueado, despues de ser creado.
+    //     // $scope.sessionUser = data.user;
+    //     SweetAlert.swal("Bienvenido", "Te has registrado exitosamente", "success");
+    //   }
+    // }, function(error){
+    //   // printing error handled by then
+    //   console.log('error', error);
+    // });
 
   };
 

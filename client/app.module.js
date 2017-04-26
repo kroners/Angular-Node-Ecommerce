@@ -11,7 +11,8 @@ angular
 		'ui.router',
 		'ngRoute',
 		'ngCookies',
-		'oitozero.ngSweetAlert'
+		// 'oitozero.ngSweetAlert',
+		'ng-sweet-alert'
 		]);
 
 		angular

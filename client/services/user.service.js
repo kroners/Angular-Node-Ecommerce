@@ -1,4 +1,4 @@
-(function(){	
+(function(){
 	'use strict';
 
 	angular
@@ -21,7 +21,8 @@
 				email: 'Last name field is required',
 				password: 'Password is required'
 			};
-		var regErrors = {};
+		var regErrors = null
+		;
 		var self = {
 			usuarios: usuarios,
 			isSaving: isSaving,
@@ -31,7 +32,7 @@
 			errorMessages: errorMessages,
 			regErrors: regErrors,
 			validarErrorRegistro: validarErrorRegistro,
-			crearUsuario: crearUsuario			
+			crearUsuario: crearUsuario
 		};
 
 		return self;
@@ -46,19 +47,19 @@
 			// Se empieza con las validaciones
 			if ( !nuevoUser.name || nuevoUser.name.trim().length < 1 ) {
 				valid = false;
-				regErrors.name = errorMessages.name; 
+				regErrors.name = errorMessages.name;
 			}
 			if ( !nuevoUser.lastName || nuevoUser.lastName.trim().length < 1 ) {
 				valid = false;
-				regErrors.lastName = errorMessages.lastName; 
+				regErrors.lastName = errorMessages.lastName;
 			}
 			if ( !nuevoUser.username || nuevoUser.username.trim().length < 1 ) {
 				valid = false;
-				regErrors.email = errorMessages.email; 
+				regErrors.email = errorMessages.email;
 			}
 			if ( !nuevoUser.password || nuevoUser.password.trim().length < 1 ) {
 				valid = false;
-				regErrors.password = errorMessages.password; 
+				regErrors.password = errorMessages.password;
 			}
 			console.log(valid);
 		}
@@ -66,19 +67,16 @@
 		function crearUsuario(nuevoUsuario) {
 			console.log("Funcion crearUsuario en UserService");
 			console.log(nuevoUsuario);
-			var d = $q.defer();
 			// realzamos las validaciones llamando a la funciona anterior, la que nos realizara los cambios
 			// respectivos a las variables
 			validarErrorRegistro(nuevoUsuario);
-			console.log(self.valid);
 			console.log(valid);
 			console.log(nuevoUser);
-			console.log(self.nuevoUser);
 			if (valid) {
 				console.log("Se pasaron las validaciones");
 				isSaving = true;
-				// You don't need to return a promise in this case, because you are using a callback. 
-				// Callbacks and promises are the two ends of the spectrum. 
+				// You don't need to return a promise in this case, because you are using a callback.
+				// Callbacks and promises are the two ends of the spectrum.
 				// UserFactory.registerUser(nuevoUsuario).$promise.then(function(response){
 				UserFactory.registerUser(nuevoUsuario).then(function(response){
 					console.log(response);
@@ -87,14 +85,14 @@
 					regErrors = {};
 					// return response;
 					userSelected = response;
-					d.resolve();
-					console.log(d);
-					console.log(d.resolve());
+					console.log(userSelected);
+					console.log(self.userSelected);
+					self.userSelected = response;
+					console.log(self.userSelected);
+					// return userSelected;
 				});
 			} else {
 				console.log(self);
-				d.reject(self.regErrors);
-				return d.promise;
 			}
 		}
 

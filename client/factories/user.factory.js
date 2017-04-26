@@ -39,19 +39,23 @@
 
 		// we avoid using functions expressions and instead used function declarations as below
 		function registerUser(user) {
-            console.log('Inside registerUser Factory');
-            console.log(user);
-			return $http.post('/signup', user).then(function(data) {
-                // Returns random string in data.string
-                console.log(data);
-                // si uso promises ya no es necesario usar callbacks
-                // if (callback && typeof callback == 'function') {
-                //     callback(data);
-                // }
-                // solo tengo que hacer un return a la data
-                return data.data;
-    	    })
-    	  };
+      console.log('Inside registerUser Factory');
+      console.log(user);
+			return $http.post('/signup', user).then(function(lala) {
+        // Returns random string in data.string
+        console.log(lala);
+        // si uso promises ya no es necesario usar callbacks
+        // if (callback && typeof callback == 'function') {
+        //     callback(data);
+        // }
+        // solo tengo que hacer un return a la data
+        return lala.data;
+      })
+      .catch(function(error){
+        console.log('error', error);
+        return error;
+      })
+    };
 
         // Grab user by ID, send back user data
         function getUser (userid, callback) {
