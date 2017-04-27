@@ -1,5 +1,5 @@
 (function() {
-    'use strict'
+	'use strict'
 
 	angular
 		.module('farmacia')
@@ -31,80 +31,89 @@
 			getAllUsers: getAllUsers,
 			delUser: delUser
 		};
-        // the above code had an error because I used "=" instead of ":".
-        // the error produced Invalid shorthand property initializer and
-        // injector unpr
+		// the above code had an error because I used "=" instead of ":".
+		// the error produced Invalid shorthand property initializer and
+		// injector unpr
 
 		return service;    // this variable could also be called factory
 
 		// we avoid using functions expressions and instead used function declarations as below
 		function registerUser(user) {
-      console.log('Inside registerUser Factory');
-      console.log(user);
+			console.log('Inside registerUser Factory');
+			console.log(user);
 			return $http.post('/signup', user).then(function(lala) {
-        // Returns random string in data.string
-        console.log(lala);
-        // si uso promises ya no es necesario usar callbacks
-        // if (callback && typeof callback == 'function') {
-        //     callback(data);
-        // }
-        // solo tengo que hacer un return a la data
-        return lala.data;
-      })
-      .catch(function(error){
-        console.log('error', error);
-        return error;
-      })
-    };
+				// Returns random string in data.string
+				console.log(lala);
+				// si uso promises ya no es necesario usar callbacks
+				// if (callback && typeof callback == 'function') {
+				//     callback(data);
+				// }
+				// solo tengo que hacer un return a la data
+				return lala.data;
+			})
+			.catch(function(error){
+				console.log('error', error);
+				return error;
+			})
+		};
 
-        // Grab user by ID, send back user data
-        function getUser (userid, callback) {
-            $http.post('/getUserInfo', {userid:userid}).success(function(data) {
-                callback(data);
-            })
-        };
+		// Grab user by ID, send back user data
+		function getUser (userid) {
+			return $http.get('/getUserInfo', {userid:userid}).success(function(data, status, headers, config) {
+				return data;
+			})
+		};
 
-        function getUserByEmail (email, callback) {
-            $http.post('/getUserByEmail', {email: email}).success(function(data) {
-                if (callback) {
-                    callback(data);
-                    resetPassUser = data.data;
-                }
-            })
-        }
-        function getUserByResetUrl (url, callback) {
-            $http.post('/getUserByResetUrl', {resetUrl: url}).success(function(data) {
-                if (callback) {
-                    callback(data);
-                }
-            })
-        }
-        function resetPassword (password, url, callback) {
-            $http.post('/resetPassword', {password: password, resetUrl: url}).success(function(data) {
-                if (callback) {
-                    callback(data)
-                }
-            })
-        }
-        function getResetPassUser () {
-            return resetPassUser;
-        }
-        function getAllUsers () {
-            return 'resetPassUser';
-        }
-        function delUser () {
-            return 'resetPassUser';
-        }
+		function getUserByEmail (email, callback) {
+			return $http.get('/getUserByEmail', {email: email}).success(function(data) {
+				if (callback) {
+					callback(data);
+					resetPassUser = data.data;
+				}
+			})
+		};
 
-        function updateUser (userinfo) {
-            $http.post('/updateUser', userinfo).success(function(){
-            })
-        };
-        function changePassword (pass, callback) {
-            $http.post('/changePassword', pass).success(function(data){
-                callback(data);
-            })
-        };
+		function getUserByResetUrl (url) {
+			$http.post('/getUserByResetUrl', {resetUrl: url}).success(function(data) {
+				if (callback) {
+					callback(data);
+				}
+			})
+		};
+
+		function resetPassword (password, url, callback) {
+			$http.post('/resetPassword', {password: password, resetUrl: url}).success(function(data) {
+				return data;
+			});
+		}
+
+		function getResetPassUser () {
+			return resetPassUser;
+		}
+
+		function getAllUsers () {
+			return $http.get('/getUsers').success(function(data) {
+				return data;
+			})
+		}
+
+		function delUser (user) {
+			return $http.post('/delUser', user).success(function(data) {
+				return data;
+			});
+		}
+
+		function updateUser (userinfo) {
+			$http.post('/updateUser', userinfo).success(function(data){
+				return data;
+			})
+		};
+
+		function changePassword (pass, callback) {
+			$http.post('/changePassword', pass).success(function(data){
+				callback(data);
+			})
+		};
 
 	}
 

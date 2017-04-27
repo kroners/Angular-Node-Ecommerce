@@ -49,13 +49,15 @@ function UserController($rootScope, $scope, $http, $location, AuthService, UserS
   // Connect to factory to Create user
   // According to Jhon Papa, we should defer the Controller Logic to service
   function registerUser() {
+    console.log('Registrando Nuevo usuario');
+
 
     // define the service
     var userServ = UserService;
-    console.log('Registrando Nuevo usuario');
+    
     // Llamamos al UserService para realizar ahi las validaciones y seguir al factory con creacion de Usuario
-    UserService.crearUsuario($scope.user)
-    console.log(userServ);
+    var successData = UserService.crearUsuario($scope.user)
+    console.log(successData);
 
     if (!UserService.regErrors){
 
