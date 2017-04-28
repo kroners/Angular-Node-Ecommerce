@@ -11,11 +11,11 @@ module.exports = function(app){
   app.post('/auth/cambiopassword', function(req, res){
     var sess
     sess = req.session
-    var info = userControllers.cambiarPassword(req, sess)
-    res.send({message: info})
-
-  }
-
-  )
+    userControllers.cambiarPassword(req,res, sess)
+  })
+  //Llamar a metodo recuperar Contrasena
+  app.post('/auth/recuperarpassword', function(req, res){
+    userControllers.recuperarPassword(req, res)
+  })
 
 }
