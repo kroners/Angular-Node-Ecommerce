@@ -10,7 +10,7 @@ var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth : {
     user: configfile.emailUser,
-    pass: configfile.mailPassword
+    pass: configfile.emailPassword
   }
 })
 var domainName = configfile.domainName
@@ -100,15 +100,25 @@ function recuperarPassword(req,res){
 }
 
 function sendResetPasswordEmail(req, res, username){
+  console.log('---------->Enviando correo de recuperacion de contraseña<--------------');
   var mailOptions = {
     from: '"Le Drug Store" <' + configfile.emailUser + '>', // sender address
-    to: 'temporal@mail.com', // list of receivers
+    to: username, // list of receivers
     subject: 'Recuperar contraseña', // Subject line
     text: 'Hello world ?', // plain text body
-    html: '<div style="background: black;width:500px;margin:0px auto;margin-top:10px;margin-bottom:40px;padding:40px;font-style:tahoma"><p style="text-align:center;color:white;font-size:15px">To reset your password, please click on the button below, or click the following link if the button does not work.</p><br><br>'+
-                '<a style="text-decoration:none;margin-left:36%;background:rgb(25, 176, 153);padding:20px;width:200px;border:none;color:white;font-style:bold;font-size:20px" href="http://localhost:8000/#/resetPassword/">Reset Password</a></div><br>'+
-                'http://localhost:8000/#/resetPassword/' // html bod
+    html: '<div style="background: black;width:500px;margin:0px auto;margin-top:10px;margin-bottom:40px;padding:40px;font-style:tahoma">'+
+          '<p style="text-align:center;color:white;font-size:15px">To reset your password, please click on the button below,'+
+          ' or click the following link if the button does not work.</p><br><br>'+
+          '<a style="text-decoration:none;margin-left:36%;background:rgb(25, 176, 153);'+
+          'padding:20px;width:200px;border:none;color:white;font-style:bold;font-size:20px" '+
+          'href="' + configfile.domainName + 'horalocal/">Reset Password</a></div><br>'+
+              configfile.domainName+  'horalocal/' // html bod
   }
+  console.log('*********html markup***********');
+  console.log('');
+  console.log(mailOptions.html);
+  console.log('');
+  console.log('*********************************');
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {

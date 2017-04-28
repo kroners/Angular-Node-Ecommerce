@@ -4,7 +4,7 @@ module.exports={
   SECRET_TOKEN: 'claveTokenEcommerce',
   server_time_zone: 'America/Lima',
   secret_token_session: 'tokensession',
-  emailUser: 'correo@gmail.com',
-  emailPassword: 'clave',
-  domainName: 'htttp://localhost:3000/'
+  emailUser: 'prueba@gmail.com',
+  emailPassword: 'temporal',
+  domainName: 'http://localhost:3000/'
 }
