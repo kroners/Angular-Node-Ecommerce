@@ -26,7 +26,10 @@ passport.use('local-signup', new LocalStrategy({
       password = req.body.password.trim()
       var passwordconfirm = req.body.confirmPassword.trim()
       if (password !== passwordconfirm) {
-        return done( false, false, {codErr: '403', descerror: 'Contraseñas no coinciden'})
+        console.log('*******************Error********************');
+        console.log('Contraseñas no coinciden');
+
+        return done( Error('Contraseñas no coinciden'), false, {codErr: '403', descerror: 'Contraseñas no coinciden'})
       }
       var name = req.body.name
       var lastName = req.body.lastName

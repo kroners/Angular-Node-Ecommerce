@@ -24,16 +24,19 @@ module.exports = function(app, passport){
       console.log('--->Info : ' + info);
       console.log('--->Err  : ' + err);
       if(err){
-          console.log(err);
+        console.log('EN --> if err');
+          console.log('---->Error es: --->' + err + '<-----Fin error');
           return res.status(500).send(info)
       }
       if(user == false){
+        console.log('EN --> user false');
+        console.log(err);
         return res.status(401).send(info)
       }
 
       req.logIn(user, function(err){
+        console.log('EN --> reqLogIN');
         if(err){return next(err)}
-        //return res.redirect('/profile')
           return res.status(200).send(info);
       })
     })(req, res, next);
