@@ -64,36 +64,36 @@
 			this.regErrors = {};
 		}
 
-		this.crearUsuario = function (nuevoUsuario) {
-			console.log("Funcion crearUsuario en UserService");
-			console.log(nuevoUsuario);
-			// realzamos las validaciones llamando a la funciona anterior, la que nos realizara los cambios
-			// respectivos a las variables
-			this.validarErrorRegistro(nuevoUsuario);
-			console.log(this.valid);
-			console.log(this.nuevoUser);
-			if (this.valid) {
-				console.log("Se pasaron las validaciones");
-				this.isSaving = true;
-				// You don't need to return a promise in this case, because you are using a callback.
-				// Callbacks and promises are the two ends of the spectrum.
-				// UserFactory.registerUser(nuevoUsuario).$promise.then(function(response){
-				UserFactory.registerUser(nuevoUsuario).then(function(response){
-					console.log(response);
-					this.nuevoUser = null;
-					this.regErrors = {};
-					// return response;
-					this.userSelected = response;
-					console.log(this.userSelected);
-
-				});
-
-				return this.userSelected;
-			} else {
-				console.log(this.regErrors);
-				return this.regErrors
-			}
-		}
+		// this.crearUsuario = function (nuevoUsuario) {
+		// 	console.log("Funcion crearUsuario en UserService");
+		// 	console.log(nuevoUsuario);
+		// 	// realzamos las validaciones llamando a la funciona anterior, la que nos realizara los cambios
+		// 	// respectivos a las variables
+		// 	this.validarErrorRegistro(nuevoUsuario);
+		// 	console.log(this.valid);
+		// 	console.log(this.nuevoUser);
+		// 	if (this.valid) {
+		// 		console.log("Se pasaron las validaciones");
+		// 		this.isSaving = true;
+		// 		// You don't need to return a promise in this case, because you are using a callback.
+		// 		// Callbacks and promises are the two ends of the spectrum.
+		// 		// UserFactory.registerUser(nuevoUsuario).$promise.then(function(response){
+		// 		UserFactory.registerUser(nuevoUsuario).then(function(response){
+		// 			console.log(response);
+		// 			this.nuevoUser = null;
+		// 			this.regErrors = {};
+		// 			// return response;
+		// 			this.userSelected = response;
+		// 			console.log(this.userSelected);
+		//
+		// 		});
+		//
+		// 		return this.userSelected;
+		// 	} else {
+		// 		console.log(this.regErrors);
+		// 		return this.regErrors
+		// 	}
+		// }
 
 
 	}
