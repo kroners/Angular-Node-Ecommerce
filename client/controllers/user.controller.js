@@ -51,70 +51,80 @@ function UserController($rootScope, $scope, $http, $location, AuthService, UserS
   function registerUser() {
     console.log('Registrando Nuevo usuario');
 
+    // se crea una instancia del service
+    var serviceUser = UserService;
+    console.log(serviceUser);
 
-    // define the service
-    var userServ = UserService;
-    
-    // Llamamos al UserService para realizar ahi las validaciones y seguir al factory con creacion de Usuario
-    var successData = UserService.crearUsuario($scope.user)
-    console.log(successData);
+    // Llamamos al UserService para realizar ahi las validaciones
+    var valid = UserService.validarErrorRegistro($scope.user);
+    console.log(valid);
+    console.log(UserService.valid);
 
-    if (!UserService.regErrors){
+    // Se seguira al factory con creacion de Usuario
+    // Siempre y cuando se cumpla la condicional que sale del service
+    if (valid){
+      console.log("Validaciones del Service aporbadas");
 
-      console.log('Usuario Creado'); // si no se presentan errores , el usuario deberia estar creado
-      $('#Register').modal('toggle');
-      $scope.user = {};
-      swal("Te has registrado exitosamente");
+      UserFactory.registerUser($scope.user).then(function(response){
+        console.log(response);
+        if (response.status == 200) {
+          console.log('Usuario Creado'); // si no se presentan errores , el usuario deberia estar creado
+          $('#Register').modal('toggle');
+          $scope.user = {};
+          swal("Te has registrado exitosamente");
+        } else {
+          console.log("Usuario no creado");
+          console.log(response.data)
+          $('#Register').modal('toggle');
+          $scope.user = {};
+          swal("Error al registrar", "warning");
+        }
 
-    } else if (UserService.regErrors) {
-      SweetAlert.swal("Error al Registrar", res.regErrors, "warning");
-      SweetAlert.swal({
-         title: "Are you sure?",
-         text: "Your will not be able to recover this imaginary file!",
-         type: "warning",
-         showCancelButton: true,
-         confirmButtonColor: "#DD6B55",
-         confirmButtonText: "Yes, delete it!",
-         closeOnConfirm: false},
-      function(){
-         SweetAlert.swal("Booyah!");
+
+        // validar el estado del service
+        console.log(serviceUser);
+        var serviceUser = UserService;
+        console.log(serviceUser);
+
+        // limpiar el service
+        UserService.restartData();
+      })
+      .catch(function(error){
+        console.log("Se pasan validaciones pero no se registro");
+        console.log(error);
+
+        // limpiar el service
+        UserService.restartData();
       });
-      $scope.user = {}; // En error se borran los campos para llenar el registro
-    }
 
-    // .then(function(res) {
-    //   console.log(res);
-    //   if (res.regErrors) {
-    //
-    //     SweetAlert.swal("Error al Registrar", res.regErrors, "warning");
-    //     SweetAlert.swal({
-    //        title: "Are you sure?",
-    //        text: "Your will not be able to recover this imaginary file!",
-    //        type: "warning",
-    //        showCancelButton: true,
-    //        confirmButtonColor: "#DD6B55",
-    //        confirmButtonText: "Yes, delete it!",
-    //        closeOnConfirm: false},
-    //     function(){
-    //        SweetAlert.swal("Booyah!");
-    //     });
-    //     $scope.user = {}; // En error se borran los campos para llenar el registro
-    //   } else {
-    //     console.log('Usuario Creado'); // si no se presentan errores , el usuario deberia estar creado
-    //     $('#Register').modal('toggle');
-    //     $scope.user = {};
-    //     // if (res.data.status == "SUCCESS") {
-    //     //   $scope.sessionUser = res.config.data.name;
-    //     //   $scope.loggedIn = true;
-    //     // }
-    //     // Aun no se añaden validators, por lo que solo se asigna la data de usuario al logueado, despues de ser creado.
-    //     // $scope.sessionUser = data.user;
-    //     SweetAlert.swal("Bienvenido", "Te has registrado exitosamente", "success");
-    //   }
-    // }, function(error){
-    //   // printing error handled by then
-    //   console.log('error', error);
-    // });
+    } else if (!valid) {
+      console.log("No se pasaron las validaciones del Service");
+      console.log(serviceUser.regErrors);
+
+      swal("Error al registrar");
+      // SweetAlert.swal("Error al Registrar", res.regErrors, "warning");
+      // SweetAlert.swal({
+      //    title: "Are you sure?",
+      //    text: "Your will not be able to recover this imaginary file!",
+      //    type: "warning",
+      //    showCancelButton: true,
+      //    confirmButtonColor: "#DD6B55",
+      //    confirmButtonText: "Yes, delete it!",
+      //    closeOnConfirm: false},
+      // function(){
+      //    SweetAlert.swal("Booyah!");
+      // });
+      $scope.user = {}; // En error se borran los campos para llenar el registro
+
+      // limpiar el service
+      UserService.restartData();
+
+      // validar el estado del service
+      console.log(serviceUser);
+      var serviceUser = UserService;
+      console.log(serviceUser);
+    }
+    console.log("Fuera del if-valid")
 
   };
 

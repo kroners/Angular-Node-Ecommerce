@@ -21,10 +21,10 @@
 				email: 'Last name field is required',
 				password: 'Password is required'
 			};
-		this.regErrors = null;
+		this.regErrors = {};
 
 		this.validarErrorRegistro = function (nuevoUsuario){
-			
+
 			console.log(this.valid);
 			console.log(this.nuevoUser);
 			this.nuevoUser = nuevoUsuario;
@@ -47,6 +47,21 @@
 				this.regErrors.password = this.errorMessages.password;
 			}
 			console.log(this.valid);
+
+			if (this.valid) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		this.restartData = function() {
+			this.usuarios = [];
+			this.isSaving = false;
+			this.nuevoUser = null;
+			this.valid = true;
+			this.userSelected = null;
+			this.regErrors = {};
 		}
 
 		this.crearUsuario = function (nuevoUsuario) {
@@ -70,7 +85,7 @@
 					// return response;
 					this.userSelected = response;
 					console.log(this.userSelected);
-					
+
 				});
 
 				return this.userSelected;
