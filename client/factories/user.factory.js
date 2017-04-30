@@ -49,7 +49,7 @@
 				//     callback(data);
 				// }
 				// solo tengo que hacer un return a la data
-				return lala.data;
+				return lala;
 			})
 			.catch(function(error){
 				console.log('error', error);
