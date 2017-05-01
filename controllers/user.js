@@ -2,6 +2,8 @@
 
 const User = require('../models/user')
 const bcrypt = require('bcrypt-nodejs')
+const crypto = require('crypto')
+const async = require('async');
 var momenttz = require('moment-timezone');
 var nodemailer =  require('nodemailer')
 var configfile = require('../config/config-file')
@@ -87,23 +89,74 @@ function cambiarPassword(req,res, sess){
 
 function recuperarPassword(req,res){
   var username = req.body.username.toLowerCase().trim();
+  var token=''
+  async.waterfall([
+    function (done){
+      console.log('-----> Primero en DONE');
+      crypto.randomBytes(20, function(err, buf){
+        var token = buf.toString('hex')
+        done(err, token)
+      })
+    },
+    function (token, done){
+      console.log('-----> Luego en Token, Done');
+      User.findOne({username: {$regex: username, $options: "i"}}, function(err, user){
+        if (!user) {
+          console.log('Usuario no existe')
+          res.status(401).send({codErr: '401', descerror: 'El usuario no existe'})
+        }
+        else{
+          console.log('-----> Token-->'+ token+ '<---------------');
+          user.resetPasswordToken = token
+          user.resetPasswordExpires = Date.now() + 3600000;
+          user.save(function(err){
+            done(err, token, user)
+          })
+        }
+      })
+    },
+    function(token, user, done){
+      console.log('-----> Luego 2 en Token, Done, User');
+      console.log('--> Guardar token pra pruebas['+ token+']');
+      res.status(200).send({codErr: '200', descerror: 'Revisa tu correo con las instrucciones para restablecer tu contraseña'})
+      //Descomentar para pruebas con envio de correo
+      //sendResetPasswordEmail(req, res, user.username, token)
+    }
+  ],function(err){
+    console.log('-----> Ahora en error');
+    if (err) return next(err);
+    res.status(401).send({codErr: '500', descerror: 'Error al recuperar contraseña'})
+  })
+
+
+/*
     User.findOne({username: {$regex: username, $options: "i"}}).then(function(user){
       console.log('------>user:-->'+ user + '<-----' );
       if (user) {
         console.log('Encontro a usuario')
-        sendResetPasswordEmail(req, res, user.username)
+        crypto.randomBytes(20, function(err, buf){
+          token = buf.toString('hex');
+          console.log('-----> Token-->'+ token+ '<---------------');
+        })
+          console.log('-----> Token 2-->'+ token+ '<---------------');
+
+          res.status(200).send({'msg' : 'todo OK'})
+
+        //sendResetPasswordEmail(req, res, user.username)
       }else{
           console.log('Usuario no existe')
           res.status(401).send({codErr: '401', descerror: 'El usuario no existe'})
       }
     })
+*/
 }
 
-function sendResetPasswordEmail(req, res, username){
+function sendResetPasswordEmail(req, res, email, token){
   console.log('---------->Enviando correo de recuperacion de contraseña<--------------');
+  console.log('Token antes de enviar email---->' + token + '<--------');
   var mailOptions = {
     from: '"Le Drug Store" <' + configfile.emailUser + '>', // sender address
-    to: username, // list of receivers
+    to: email, // list of receivers
     subject: 'Recuperar contraseña', // Subject line
     text: 'Hello world ?', // plain text body
     html: '<div style="background: black;width:500px;margin:0px auto;margin-top:10px;margin-bottom:40px;padding:40px;font-style:tahoma">'+
@@ -111,27 +164,38 @@ function sendResetPasswordEmail(req, res, username){
           ' or click the following link if the button does not work.</p><br><br>'+
           '<a style="text-decoration:none;margin-left:36%;background:rgb(25, 176, 153);'+
           'padding:20px;width:200px;border:none;color:white;font-style:bold;font-size:20px" '+
-          'href="' + configfile.domainName + 'horalocal/">Reset Password</a></div><br>'+
-              configfile.domainName+  'horalocal/' // html bod
+          'href="' + configfile.domainName + 'auth/reset/'+ token +'">Reset Password</a></div><br>'+
+              configfile.domainName+  'auth/reset/' + token // html bod
   }
-  console.log('*********html markup***********');
-  console.log('');
-  console.log(mailOptions.html);
-  console.log('');
-  console.log('*********************************');
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
         return console.log(error);
     }
-    console.log('Message %s sent: %s', info.messageId, info.response);
+    console.log('----->Message %s sent: %s', info.messageId, info.response);
 });
 
-  res.status(200).send(username)
+  res.status(200).send({codErr: '200', descerror: 'Revisa tu correo con las instrucciones para restablecer tu contraseña'})
+}
+
+function verificarTokenParaResetearPassword(req, res){
+  var tokenparaverificar = req.params.token.trim()
+  console.log('-->token recibido['+ tokenparaverificar+']')
+  console.log('Ahora buscar en DB');
+  User.findOne({resetPasswordToken: tokenparaverificar, resetPasswordExpires: {$gt: new Date()}}, function(err, user){
+    if(!user){
+      console.log('dentro de if - token invalido');
+      res.status(401).send({codErr: '401', descerror: 'El token ha expirado o es inválido'})
+    }else{
+      console.log('token ok - continua recuperar clave');
+      res.status(200).send({codErr: '200', descerror: 'Token correcto, restablecer contraseña'})
+    }
+  })
 }
 
 module.exports = {
   actualizarLastLogin,
   cambiarPassword,
-  recuperarPassword
+  recuperarPassword,
+  verificarTokenParaResetearPassword
 }

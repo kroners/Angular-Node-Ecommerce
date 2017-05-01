@@ -10,7 +10,10 @@ var userSchema = new Schema({
   name: String,
   lastName: String,
   lastLogin: Date,
-  signUpDate: Date
+  signUpDate: Date,
+  resetPasswordToken: String,
+  resetPasswordExpires: Date
+
 });
 
 userSchema.methods.generateHash = function(password){

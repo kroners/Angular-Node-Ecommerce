@@ -5,6 +5,6 @@ module.exports={
   server_time_zone: 'America/Lima',
   secret_token_session: 'tokensession',
   emailUser: 'prueba@gmail.com',
-  emailPassword: 'temporal',
+  emailPassword: 'prueba',
   domainName: 'http://localhost:3000/'
 }

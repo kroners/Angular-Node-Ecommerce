@@ -17,5 +17,9 @@ module.exports = function(app){
   app.post('/auth/recuperarpassword', function(req, res){
     userControllers.recuperarPassword(req, res)
   })
+  //GET para verificar si tiene token para resetear password
+  app.get('/auth/reset/:token', function(req, res){
+    userControllers.verificarTokenParaResetearPassword(req, res)
+  })
 
 }
