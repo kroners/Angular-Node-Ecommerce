@@ -118,64 +118,44 @@ function recuperarPassword(req,res){
     function(token, user, done){
       console.log('-----> Luego 2 en Token, Done, User');
       console.log('--> Guardar token pra pruebas['+ token+']');
-      res.status(200).send({codErr: '200', descerror: 'Revisa tu correo con las instrucciones para restablecer tu contraseña'})
+      //res.status(200).send({codErr: '200', descerror: 'Revisa tu correo con las instrucciones para restablecer tu contraseña'})
       //Descomentar para pruebas con envio de correo
-      //sendResetPasswordEmail(req, res, user.username, token)
+      var emailsubject =  'Recuperar contraseña'
+      var contenidohtml = '<div style="background: black;width:500px;margin:0px auto;margin-top:10px;margin-bottom:40px;padding:40px;font-style:tahoma">'+
+                          '<p style="text-align:center;color:white;font-size:15px">To reset your password, please click on the button below,'+
+                          ' or click the following link if the button does not work.</p><br><br>'+
+                          '<a style="text-decoration:none;margin-left:36%;background:rgb(25, 176, 153);'+
+                          'padding:20px;width:200px;border:none;color:white;font-style:bold;font-size:20px" '+
+                          'href="' + configfile.domainName + 'auth/reset/'+ token +'">Reset Password</a></div><br>'+
+                          configfile.domainName+  'auth/reset/' + token
+      var mensajeexito = 'Revisa tu correo con las instrucciones para restablecer tu contraseña'
+      sendResetPasswordEmail(req, res, user.username, emailsubject, contenidohtml, mensajeexito)
     }
   ],function(err){
-    console.log('-----> Ahora en error');
     if (err) return next(err);
     res.status(401).send({codErr: '500', descerror: 'Error al recuperar contraseña'})
   })
-
-
-/*
-    User.findOne({username: {$regex: username, $options: "i"}}).then(function(user){
-      console.log('------>user:-->'+ user + '<-----' );
-      if (user) {
-        console.log('Encontro a usuario')
-        crypto.randomBytes(20, function(err, buf){
-          token = buf.toString('hex');
-          console.log('-----> Token-->'+ token+ '<---------------');
-        })
-          console.log('-----> Token 2-->'+ token+ '<---------------');
-
-          res.status(200).send({'msg' : 'todo OK'})
-
-        //sendResetPasswordEmail(req, res, user.username)
-      }else{
-          console.log('Usuario no existe')
-          res.status(401).send({codErr: '401', descerror: 'El usuario no existe'})
-      }
-    })
-*/
 }
 
-function sendResetPasswordEmail(req, res, email, token){
+function sendResetPasswordEmail(req, res, email, emailsubject, contenidohtml, mensajeexito){
   console.log('---------->Enviando correo de recuperacion de contraseña<--------------');
-  console.log('Token antes de enviar email---->' + token + '<--------');
   var mailOptions = {
     from: '"Le Drug Store" <' + configfile.emailUser + '>', // sender address
     to: email, // list of receivers
-    subject: 'Recuperar contraseña', // Subject line
+    subject: emailsubject, // Subject line
     text: 'Hello world ?', // plain text body
-    html: '<div style="background: black;width:500px;margin:0px auto;margin-top:10px;margin-bottom:40px;padding:40px;font-style:tahoma">'+
-          '<p style="text-align:center;color:white;font-size:15px">To reset your password, please click on the button below,'+
-          ' or click the following link if the button does not work.</p><br><br>'+
-          '<a style="text-decoration:none;margin-left:36%;background:rgb(25, 176, 153);'+
-          'padding:20px;width:200px;border:none;color:white;font-style:bold;font-size:20px" '+
-          'href="' + configfile.domainName + 'auth/reset/'+ token +'">Reset Password</a></div><br>'+
-              configfile.domainName+  'auth/reset/' + token // html bod
+    html: contenidohtml
   }
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-        return console.log(error);
+        console.log('error al enviar correo');
+        res.status(401).send({codErr: '500', descerror: 'Error al recuperar contraseña'})
+    }else{
+      console.log('----->Message %s sent: %s', info.messageId, info.response)
+      res.status(200).send({codErr: '200', descerror: mensajeexito})
     }
-    console.log('----->Message %s sent: %s', info.messageId, info.response);
 });
-
-  res.status(200).send({codErr: '200', descerror: 'Revisa tu correo con las instrucciones para restablecer tu contraseña'})
 }
 
 function verificarTokenParaResetearPassword(req, res){
@@ -194,25 +174,25 @@ function verificarTokenParaResetearPassword(req, res){
 }
 
 function validarTokenRestablecerPassword(req, res){
-  console.log('ini valdiar token y rest password INIIIIIIIIIII');
   var tokenparaverificar = req.params.token.trim()
   var password = req.body.password.trim()
   var passwordconfirm = req.body.confirmPassword.trim()
   var hash = new User().generateHash(password)
+  var continuaok = true
   console.log('llego a validarTokenRestablecerPassword');
   if (password !== passwordconfirm) {
     console.log('*******************Error********************');
     console.log('Contraseñas no coinciden');
+    continuaok = false
     res.status(403).send({codErr: '403', descerror: 'Contraseñas no coinciden'})
   }
-
   async.waterfall([
     function(done){
       User.findOne({resetPasswordToken: tokenparaverificar, resetPasswordExpires: {$gt: new Date()}}, function(err, user){
         if(!user){
           console.log('dentro de if - token invalido');
           res.status(401).send({codErr: '401', descerror: 'El token ha expirado o es inválido'})
-        }else{
+        }else if (continuaok){
           console.log('token ok - continua recuperar clave');
           user.password = hash
           user.resetPasswordToken = undefined;
@@ -222,13 +202,22 @@ function validarTokenRestablecerPassword(req, res){
               res.status(500).send({codErr: '500', descerror: 'Error al restablecer contraseña, inténtalo en unos minutos'})
             }
           })
+          var emailsubject =  'Tu contraseña ha sido cambiada con éxito'
+          var contenidohtml = 'Hola ' + user.name +',\n\n <br>' +
+                              'Esta es una confirmación que la contraseña de tu cuenta ' + user.username +' ha sido cambiada con éxito. \n <br><br>'
+          var mensajeexito = 'Contraseña restablecida con éxito.'
+          sendResetPasswordEmail(req, res, user.username, emailsubject, contenidohtml, mensajeexito)
 
-
-          res.status(200).send({codErr: '200', descerror: 'CLave rrestablecida OK ------------> \n Token correcto, restablecer contraseña'})
+          //res.status(200).send({codErr: '200', descerror: 'CLave rrestablecida OK ------------> \n Token correcto, restablecer contraseña'})
         }
       })
     }
-  ])
+  ], function(err){
+    console.log('-----> Ahora en error');
+    if (err) return next(err);
+    res.status(401).send({codErr: '500', descerror: 'Error al restablecer contraseña'})
+  }
+)
 }
 
 module.exports = {
