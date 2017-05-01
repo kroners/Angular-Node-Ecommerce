@@ -2,7 +2,7 @@
 const mongoose = require('mongoose')
 const User = require('../models/user')
 const service = require('../services')
-
+/*
 function signUp(req, res){
   const user = new User({
     user: req.body.user,
@@ -25,3 +25,4 @@ module.export = {
   signIn,
   signUp
 }
+*/

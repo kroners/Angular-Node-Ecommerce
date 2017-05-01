@@ -17,7 +17,7 @@ function config($routeProvider) {
       controller: 'ProfileController'
     })
     .when('/adminYoyoLala', {
-      templateUrl: 'partials/admin.html',
+      templateUrl: 'partials/admin-panel.html',
       controller: 'AdminController'
     })
     .when('/login', {

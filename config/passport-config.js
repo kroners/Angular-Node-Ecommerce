@@ -25,17 +25,25 @@ passport.use('local-signup', new LocalStrategy({
       console.log('Entro al USE - Local SignUP')
       username = req.body.username.toLowerCase().trim()
       password = req.body.password.trim()
+      var passwordconfirm = req.body.confirmPassword.trim()
+      if (password !== passwordconfirm) {
+        console.log('*******************Error********************');
+        console.log('Contraseñas no coinciden');
+
+        return done( Error('Contraseñas no coinciden'), false, {codErr: '403', descerror: 'Contraseñas no coinciden'})
+      }
       var name = req.body.name
-      console.log('User: ['+ username+ '], Pass: ['+ password+ '], Name: ['+ name +']')
+      var lastName = req.body.lastName
+      console.log('User: ['+ username+ '], Pass: ['+ password+ '], Name: ['+ name +'], Lastname: ['+ lastName +']')
       process.nextTick(function(){
         User.findOne({username: {$regex: username, $options: "i"}}, function(err, user){
           console.log('Busca si existe o no usuario')
           if(err){
-            return done(err)
+            //return done(err)
+            return done(err, false, {codErr: '500', descerror: err})
           }
           if(user){
-            console.log('Error - El usuario ya esta en uso');
-            return done(null, false, {message: 'Error - El usuario ya esta en uso'})
+            return done(null, false, {codErr: '401', descerror: 'El usuario ya esta en uso'})
           }else{
             console.log('Usuario disponible');
           try{
@@ -44,30 +52,27 @@ passport.use('local-signup', new LocalStrategy({
             newUser.username = username
             newUser.password = newUser.generateHash(password)
             newUser.name = name
+            newUser.lastName = lastName
             newUser.lastLogin = null
             newUser.signUpDate = hora
             newUser.save(function(err){
               console.log('grabando usuario');
               if(err){
-                throw err
-                return(null, err)
+                throw err;
+                //return(null, err)
               }
 
-              console.log('-----------------> texto de prueba en el back');
-
-              console.log('Login OK nombre de usuario: [' + newUser.name +']')
-              console.log('-------------> en BACK');
-              console.log(newUser);
-              console.log('-------------> cambio atributo de user --> password');
-              newUser.password="nuevaClave";
-              console.log('-------------> en BACK user con nuevo atributo clave');
-              console.log(newUser);
-
-              return done(null, newUser, 'Creacion de usuari OK en BD')
+              return done(null, newUser, {
+                username: newUser.username,
+                name: newUser.name,
+                lastName: newUser.lastName,
+                lastLogin: newUser.lastLogin
+              })
+              /* {codErr: '200', descerror: 'Creacion de usuari OK en BD'})*/
             })
           }catch(err){
             console.log('Error : ************' + err)
-            return done(err, null)
+            return done(err, null,{codErr: '500', descerror: err})
           }
           }
         })
@@ -95,22 +100,23 @@ passport.use('local-login', new LocalStrategy({
           }
           if(err){
             console.log('Error general - Login - ' + err)
-            return done(err)
+            return done(err, false, {codErr: '500', descerror: err})
+            //return done(err)
           }
           if(!user){
             console.log('Error - El usuario no existe');
-            return done(null, false, {message: 'Error - El usuario no existe'})
+            return done(null, false, {codErr: '401', descerror: 'El usuario no existe'})
           }
           //var newUser = new User()
           if(!user.validPassword(user.password, password)){
             console.log('Error - Clave incorrecta')
-            return done(null, false, {message: 'Error - Clave incorrecta'})
+            return done(null, false, {codErr: '403', descerror: 'Clave incorrecta'})
           }
-          console.log('Login OK nombre de usuario: [' + user.name +']')
+          console.log('Login OK nombre de usuario: [' + user.name + ' '+ user.lastName +']')
           //Actualizar fecha de lastLogin
           userControllers.actualizarLastLogin(user.username)
           sess.user = user
-          return done(null, user)
+          return done(null, user)/*aca faltaria regresar datos de info*/
         })
       })
     }
