@@ -193,9 +193,48 @@ function verificarTokenParaResetearPassword(req, res){
   })
 }
 
+function validarTokenRestablecerPassword(req, res){
+  console.log('ini valdiar token y rest password INIIIIIIIIIII');
+  var tokenparaverificar = req.params.token.trim()
+  var password = req.body.password.trim()
+  var passwordconfirm = req.body.confirmPassword.trim()
+  var hash = new User().generateHash(password)
+  console.log('llego a validarTokenRestablecerPassword');
+  if (password !== passwordconfirm) {
+    console.log('*******************Error********************');
+    console.log('Contraseñas no coinciden');
+    res.status(403).send({codErr: '403', descerror: 'Contraseñas no coinciden'})
+  }
+
+  async.waterfall([
+    function(done){
+      User.findOne({resetPasswordToken: tokenparaverificar, resetPasswordExpires: {$gt: new Date()}}, function(err, user){
+        if(!user){
+          console.log('dentro de if - token invalido');
+          res.status(401).send({codErr: '401', descerror: 'El token ha expirado o es inválido'})
+        }else{
+          console.log('token ok - continua recuperar clave');
+          user.password = hash
+          user.resetPasswordToken = undefined;
+          user.resetPasswordExpires = undefined;
+          user.save(function(err){
+            if (err){
+              res.status(500).send({codErr: '500', descerror: 'Error al restablecer contraseña, inténtalo en unos minutos'})
+            }
+          })
+
+
+          res.status(200).send({codErr: '200', descerror: 'CLave rrestablecida OK ------------> \n Token correcto, restablecer contraseña'})
+        }
+      })
+    }
+  ])
+}
+
 module.exports = {
   actualizarLastLogin,
   cambiarPassword,
   recuperarPassword,
-  verificarTokenParaResetearPassword
+  verificarTokenParaResetearPassword,
+  validarTokenRestablecerPassword
 }
