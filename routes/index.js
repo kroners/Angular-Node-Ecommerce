@@ -24,33 +24,30 @@ module.exports = function(app, passport){
       console.log('--->Info : ' + info);
       console.log('--->Err  : ' + err);
       if(err){
-          console.log('cayo en error post signup routes');
-          return next(err);
+        console.log('EN --> if err');
+          console.log('---->Error es: --->' + err + '<-----Fin error');
+          return res.status(500).send(info)
       }
-      //pruba mensaje de backend if(!user){return res.redirect('/signup')}
-      if(!user){
-        console.log('cayo en user no esta vacio en post signup routes');
+      if(user == false){
+        console.log('EN --> user false');
+        console.log(err);
         return res.status(401).send(info)
       }
 
       req.logIn(user, function(err){
+        console.log('EN --> reqLogIN');
         if(err){return next(err)}
-        //return res.redirect('/profile')
-          return res.status(200).json({
-            usuario: user.username,
-            nombre: user.name,
-            lastLogin: user.lastLogin
-          });
+          return res.status(200).send(info);
       })
     })(req, res, next);
   })
 
   app.post('/login', function(req, res, next){
     passport.authenticate('local-login', function(err, user, info){
-      if(err){return next(err)}
-      if(!user){return res.send(info)}
+      if(err){return res.status(500).send(info)}
+      if(user == false){return res.status(401).send(info)}
       req.logIn(user, function(err){
-        if(err){return next(err)}
+        if(err){return res.status(500).send({codErr:'500', descerror: err})}
         return res.redirect('/loginOK')
       })
     })(req, res, next);

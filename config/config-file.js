@@ -3,5 +3,8 @@ module.exports={
   db: process.env.MONGODB || 'mongodb://localhost:27017/ecommerce',
   SECRET_TOKEN: 'claveTokenEcommerce',
   server_time_zone: 'America/Lima',
-  secret_token_session: 'tokensession'
+  secret_token_session: 'tokensession',
+  emailUser: 'prueba@gmail.com',
+  emailPassword: 'prueba',
+  domainName: 'http://localhost:3000/'
 }
