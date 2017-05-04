@@ -2,7 +2,8 @@ angular
   .module('farmacia')
   .config(config);
 
-function config($routeProvider) {
+function config($locationProvider, $routeProvider) {
+  $locationProvider.html5Mode(true);
   $routeProvider
     .when('/', {
       templateUrl: 'partials/home.html',
@@ -27,5 +28,8 @@ function config($routeProvider) {
     .when('/register', {
       templateUrl: 'partials/register.html',
       controller: 'UserController'
+    })
+    .otherwise({
+      redirectTo: '/'
     });
 }

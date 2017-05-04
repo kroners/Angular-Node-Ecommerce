@@ -145,12 +145,18 @@ function UserController($rootScope, $scope, $http, $location, AuthService, UserS
 
   // User is Logging In
   function login () {
+    console.log("Inside login function");
+
     $scope.loginErrors = '';
 
     AuthService.login($scope.credentials).then(function (user) {
+      console.log(user);
+      console.log("Success Login User");
       // after success login, we communicate the authentication state through events (with $broadcast)
       $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
       $scope.setCurrentUser(user);
+
+      $location.path("/profile");
     }, function() {
       $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
     });
@@ -181,6 +187,7 @@ function UserController($rootScope, $scope, $http, $location, AuthService, UserS
     $http.get('/logout').then(function(){
       $scope.sessionUser = {};
       $scope.loggedIn = false;
+      AuthService.logout();
     });
   };
 

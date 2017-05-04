@@ -21,11 +21,11 @@
 		function login(credentials) {
 			return $http
 				.post('/login', credentials)
-				.then(function (data) {
+				.then(function (logueado) {
 					//Returns the User data that will be kept in Session
-                	console.log(data);
-					SessionService.create(data.data.id,data.data.user.id,data.data.user.role);
-					return data.data.user;
+                	console.log(logueado);
+					SessionService.create(logueado.data.id, logueado.data.user.id, logueado.data, logueado.data.user.role);
+					return logueado.data.user;
 				});
 		}
 
