@@ -20,6 +20,16 @@ angular
 			.config(function ($httpProvider) { //,  $resourceProvider, laddaProvider, $datepickerProvider) {
 				$httpProvider.defaults.useXDomain = true;
 				$httpProvider.defaults.withCredentials = true;
+				$httpProvider.interceptors.push(['$q', function($q) {
+					return {
+						'responseError': function(rejection) {
+							if (rejection.status === 401) {
+								console.log('Got a 401');
+							}
+							return $q.reject(rejection)
+						}
+					}
+				}]);
 				// $httpProvider.defaults.headers.common['Authorization'] = 'Token 20002cd74d5ce124ae219e739e18956614aab490';
 				// $resourceProvider.defaults.stripTrailingSlashes = false;
 				// laddaProvider.setOption({

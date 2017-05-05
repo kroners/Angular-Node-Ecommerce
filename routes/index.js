@@ -43,6 +43,7 @@ module.exports = function(app, passport){
   })
 
   app.post('/login', function(req, res, next){
+    console.log("inside login back");
     passport.authenticate('local-login', function(err, user, info){
       if(err){return res.status(500).send(info)}
       if(user == false){return res.status(401).send(info)}

@@ -10,6 +10,7 @@
 
 	function AuthService($http, SessionService) {
 		console.log("Dentro del AuthService");
+        
 		var authService = {
 			login: login,
 			isAuthenticated: isAuthenticated,
@@ -19,14 +20,19 @@
 		return authService;
 
 		function login(credentials) {
-			return $http
-				.post('/login', credentials)
-				.then(function (logueado) {
-					//Returns the User data that will be kept in Session
-                	console.log(logueado);
-					SessionService.create(logueado.data.id, logueado.data.user.id, logueado.data, logueado.data.user.role);
-					return logueado.data.user;
-				});
+            console.log("Log in user -------------");
+            console.log(credentials);
+
+			return $http.post('/login', credentials).then(function (logueado) {
+				//Returns the User data that will be kept in Session
+            	console.log(logueado);
+				SessionService.create(logueado.data.id, logueado.data.user.id, logueado.data, logueado.data.user.role);
+				return logueado.data.user;
+			})
+            .catch(function(error){
+                console.log('error', error);
+                return error;
+            });
 		}
 
         // function login (user, callback) {

@@ -21,7 +21,7 @@
                 <input type="text" class="form-control {{errors.last_name}}" id="last_name" ng-model="loggedUser.last_name" ng-change="updateInfo('last_name')">
             </div>
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label for="street_address" class="col-sm-2 control-label">Street Address</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control {{errors.street_address}}" id="street_address" ng-model="loggedUser.street_address" ng-change="updateInfo('street_address')">
@@ -50,7 +50,7 @@
             <div class="col-sm-10">
                 <input type="text" class="form-control {{errors.phone_number}}" id="phone_number" ng-model="loggedUser.phone_number" ng-change="updateInfo('phone_number')">
             </div>
-        </div>
+        </div> -->
         <!-- DONT REALLY WANT THEM TO CHANGE EMAIL WHENEVRRR -->
         <!-- <div class="form-group">
             <label for="email" class="col-sm-2 control-label">Email Address</label>
@@ -58,14 +58,14 @@
                 <input type="email" class="form-control {{errors.email}}" id="email"  ng-model="loggedUser.email" ng-change="updateInfo('email')">
             </div>
         </div> -->
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label for="volunteer" class="col-sm-2 control-label">Opt-In</label>
             <div class="col-sm-10">
               <label><input type="checkbox" id="volunteer" ng-model="loggedUser.volunteer" ng-click="updateInfo('volunteer')"> Would you like to volunteer a custom letter?</label><br>
               <label><input type="checkbox" id="email_notification" ng-model="loggedUser.email_notification" ng-click="updateInfo('email_notification')"> Would you like to receive email alerts for new causes?</label><br>
               <label><input type="checkbox" id="phone_notification" ng-model="loggedUser.phone_notification" ng-click="updateInfo('phone_notification')"> Would you like to receive text alerts for new causes?</label><br>
             </div>
-        </div>
+        </div> -->
         <div class="form-group">
             <div class="col-sm-offset-8 col-sm-4 text-right">
                 <button type="submit" id="update_button" ng-click="updateProfile()">Update</button>
