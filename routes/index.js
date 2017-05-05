@@ -49,7 +49,8 @@ module.exports = function(app, passport){
       if(user == false){return res.status(401).send(info)}
       req.logIn(user, function(err){
         if(err){return res.status(500).send({codErr:'500', descerror: err})}
-        return res.redirect('/loginOK')
+        //return res.redirect('/loginOK')
+        return res.status(200).send(info)
       })
     })(req, res, next);
   })

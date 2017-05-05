@@ -116,7 +116,15 @@ passport.use('local-login', new LocalStrategy({
           //Actualizar fecha de lastLogin
           userControllers.actualizarLastLogin(user.username)
           sess.user = user
-          return done(null, user)/*aca faltaria regresar datos de info*/
+          var fechalastlogin = momenttz(user.lastLogin).format('LTS - DD/MM/YYYY ')
+          var info= {username: user.username,
+            name: user.name,
+            lastName: user.lastName,
+            lastLogin: fechalastlogin
+          }
+          console.log('-------> Esto debe devolver al front-->');
+          console.log(info);
+          return done(null, user, info)/*aca faltaria regresar datos de info*/
         })
       })
     }
