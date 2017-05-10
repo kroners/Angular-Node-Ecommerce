@@ -12,6 +12,11 @@
     console.log("Dentro de profile controller");
     $scope.loggedUser = {};
     $scope.loggedIn = false;
+    $scope.pass = {};
+
+    $scope.updateProfile = updateProfile;
+    $scope.changePassword = changePassword;
+    $scope.showPassword = showPassword;
 
       // Search if user is LoggedIn
     function checkUserSession(){
@@ -23,7 +28,9 @@
         $location.path("/");
       }  else {
         $scope.loggedUser = SessionService.user;
+        console.log($scope.loggedUser);
         $scope.loggedIn = true;
+        console.log($scope.loggedIn);
       }
       console.log("pendiente chequeo del backend");
       console.log($scope.user);
@@ -38,6 +45,32 @@
     };
     
     checkUserSession();
+
+    function updateProfile(){
+      console.log("Updating User Info");
+      UserFactory
+    };
+
+    function changePassword(){
+      console.log("Changing password");
+      console.log($scope.pass);
+      $scope.pass.username = $scope.loggedUser.username;
+
+      if ($scope.pass.newPassword != $scope.pass.newpassword1) {
+        swal("Contraseñas no coinciden");
+        $scope.pass = {};
+        return next();
+      }
+      UserFactory.changePassword($scope.pass).then(function(data){
+        console.log("password change completed");
+        console.log(data);
+
+      })
+    };
+
+    function showPassword(){
+
+    };
 
   };
 
