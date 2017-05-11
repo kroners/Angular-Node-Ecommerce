@@ -110,9 +110,9 @@
 		};
 
 		function changePassword (pass) {
-			$http.post('/auth/cambiopassword', pass).then(function(data){
+			return $http.post('/auth/cambiopassword', pass).then(function(data){
 				console.log("Successful change password");
-
+				console.log(data);
 				return data;
 			})
 			.catch(function(error){

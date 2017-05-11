@@ -1,6 +1,6 @@
-<div ng-controller="ProfileController">
+<div>
 	<div>
-		<h2>Bienvenido a tu perfil {{$scope.loggedUser.name}} </h2>
+		<h2>Bienvenido a tu perfil {{loggedUser.name}} </h2>
 
 		<h2>User Profile</h2>
 
@@ -78,7 +78,7 @@
         <div class="form-group">
             <label for="oldpassword" class="col-sm-2 control-label">Old Password</label>
             <div class="col-sm-8">
-                <input type="password" class="form-control" id="user_oldpassword" ng-model="pass.oldPassword">
+                <input type="password" class="form-control" id="user_oldpassword" ng-model="pass.password">
             </div>
         </div>
         <div class="form-group">
@@ -86,9 +86,9 @@
             <div class="col-sm-8">
                 <input type="password" class="form-control" id="user_password" ng-model="pass.newpassword">
             </div>
-            <div class="col-sm-2 text-right">
+<!--             <div class="col-sm-2 text-right">
                 <button type="button" id="password_button" ng-click="showPassword()">{{ showpass }}</button>
-            </div>
+            </div> -->
         </div>
         <div class="form-group">
             <label for="confirmpassword" class="col-sm-2 control-label">Confirm New Password</label>

@@ -13,6 +13,7 @@
     $scope.loggedUser = {};
     $scope.loggedIn = false;
     $scope.pass = {};
+    console.log($scope.pass);
 
     $scope.updateProfile = updateProfile;
     $scope.changePassword = changePassword;
@@ -48,24 +49,38 @@
 
     function updateProfile(){
       console.log("Updating User Info");
-      UserFactory
+      UserFactory.updateUser($scope.loggedUser).then(function(data){
+        console.log("Usuario actualizado");
+      });
     };
 
     function changePassword(){
       console.log("Changing password");
       console.log($scope.pass);
       $scope.pass.username = $scope.loggedUser.username;
+      console.log($scope.pass);
+      console.log($scope.pass.newPassword);
+      console.log($scope.pass.newPassword1);
+      if (!$scope.pass) {
 
-      if ($scope.pass.newPassword != $scope.pass.newpassword1) {
+        console.log($scope.pass.newPassword);
+        console.log($scope.pass.newPassword1);
         swal("Contraseñas no coinciden");
         $scope.pass = {};
-        return next();
+      } else {
+        UserFactory.changePassword($scope.pass).then(function(data){
+          console.log("password change completed");
+          console.log(data);
+          $scope.pass = {};
+          swal("Se cambio exitosamente la contraseña");
+        })
+        .catch(function(error){
+          console.log("password change not completed");
+          console.log(error);
+          $scope.pass = {};
+        });
       }
-      UserFactory.changePassword($scope.pass).then(function(data){
-        console.log("password change completed");
-        console.log(data);
 
-      })
     };
 
     function showPassword(){
