@@ -43,12 +43,14 @@ module.exports = function(app, passport){
   })
 
   app.post('/login', function(req, res, next){
+    console.log("inside login back");
     passport.authenticate('local-login', function(err, user, info){
       if(err){return res.status(500).send(info)}
       if(user == false){return res.status(401).send(info)}
       req.logIn(user, function(err){
         if(err){return res.status(500).send({codErr:'500', descerror: err})}
-        return res.redirect('/loginOK')
+        //return res.redirect('/loginOK')
+        return res.status(200).send(info)
       })
     })(req, res, next);
   })
@@ -56,6 +58,42 @@ module.exports = function(app, passport){
   app.get('/loginOK', function(req, res){
     res.send({message: 'Pagina de login - OK'})
   });
+
+  /*******************Rutas para admin y employees****************************/
+  app.post('/adm/login', function(req, res, next){
+    console.log("inside login de admin backend");
+    passport.authenticate('local-login-adm', function(err, employee, info){
+      if(err){return res.status(500).send(info)}
+      if(employee == false){return res.status(401).send(info)}
+      req.logIn(employee, function(err){
+        if(err){return res.status(500).send({codErr:'500', descerror: err})}
+        return res.status(200).send(info)
+      })
+    })(req, res, next);
+  });
+  app.post('/adm/signup', function(req, res, next){
+    passport.authenticate('local-signup-adm', function(err, employee, info){
+      console.log('--->User : ' + employee);
+      console.log('--->Info : ' + info);
+      console.log('--->Err  : ' + err);
+      if(err){
+        console.log('EN --> if err');
+          console.log('---->Error es: --->' + err + '<-----Fin error');
+          return res.status(500).send(info)
+      }
+      if(employee == false){
+        console.log('EN --> user false');
+        console.log(err);
+        return res.status(401).send(info)
+      }
+
+      req.logIn(employee, function(err){
+        console.log('EN --> reqLogIN');
+        if(err){return next(err)}
+          return res.status(200).send(info);
+      })
+    })(req, res, next);
+  })
 
 }
 

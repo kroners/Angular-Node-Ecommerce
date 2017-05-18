@@ -6,10 +6,11 @@
 		.module('farmacia')
 		.factory('AuthService', AuthService)
 
-	AuthService.$inject = ['$http', 'SessionService'];
+	AuthService.$inject = ['$http', 'SessionService', 'USER_ROLES'];
 
-	function AuthService($http, SessionService) {
+	function AuthService($http, SessionService, USER_ROLES) {
 		console.log("Dentro del AuthService");
+        
 		var authService = {
 			login: login,
 			isAuthenticated: isAuthenticated,
@@ -19,14 +20,19 @@
 		return authService;
 
 		function login(credentials) {
-			return $http
-				.post('/login', credentials)
-				.then(function (data) {
-					//Returns the User data that will be kept in Session
-                	console.log(data);
-					SessionService.create(data.data.id,data.data.user.id,data.data.user.role);
-					return data.data.user;
-				});
+            console.log("Log in user -------------");
+            console.log(credentials);
+
+			return $http.post('/login', credentials).then(function (logueado) {
+				//Returns the User data that will be kept in Session
+            	console.log(logueado);
+				SessionService.create('logged', logueado.data, logueado.data.username, logueado.data.name, USER_ROLES.user );
+				return logueado.data;
+			})
+            .catch(function(error){
+                console.log('error', error);
+                return error;
+            });
 		}
 
         // function login (user, callback) {

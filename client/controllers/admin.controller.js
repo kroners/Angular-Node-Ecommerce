@@ -5,9 +5,9 @@
     .module('farmacia')
     .controller('AdminController', AdminController);
 
-  AdminController.$inject = ['$scope', 'UserFactory', 'ProductFactory'];
+  AdminController.$inject = ['$scope', 'UserFactory', 'ProductFactory', 'SessionService'];
 
-  function AdminController($scope, UserFactory, ProductFactory) {
+  function AdminController($scope, UserFactory, ProductFactory, SessionService) {
     // var vm = this;
     console.log("I'm in the admin controller");
     $scope.loggedUser = {};

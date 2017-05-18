@@ -5,9 +5,9 @@ angular
 	.module('farmacia')
 	.controller('UserController', UserController);
 
-UserController.$inject = ['$rootScope', '$scope', '$http', '$location', 'AuthService', 'UserService','UserFactory','SweetAlert'];
+UserController.$inject = ['$rootScope', '$scope', '$http', '$location', 'AuthService', 'SessionService' ,'UserService','UserFactory', 'AUTH_EVENTS','SweetAlert'];
 
-function UserController($rootScope, $scope, $http, $location, AuthService, UserService, UserFactory, AUTH_EVENTS, SweetAlert) {
+function UserController($rootScope, $scope, $http, $location, AuthService, SessionService, UserService, UserFactory, AUTH_EVENTS, SweetAlert) {
 
   console.log("Inside User Controller");
 
@@ -20,7 +20,7 @@ function UserController($rootScope, $scope, $http, $location, AuthService, UserS
   $scope.sessionUser = {};
   $scope.loggedIn = false;
   $scope.credentials = { // user infor que ingresa al formulario de login
-    usermail: '',
+    username: '',
     password: ''
   };
   $scope.userService = UserService;
@@ -38,6 +38,7 @@ function UserController($rootScope, $scope, $http, $location, AuthService, UserS
   $scope.registerUser = registerUser;
   $scope.logout = logout;
   $scope.toggle = toggle;
+  $scope.setCurrentUser = setCurrentUser;
 
   function toggle() {
     $scope.mobile_drop = !$scope.mobile_drop;
@@ -145,44 +146,82 @@ function UserController($rootScope, $scope, $http, $location, AuthService, UserS
 
   // User is Logging In
   function login () {
+    console.log("Inside login function");
+
     $scope.loginErrors = '';
 
-    AuthService.login($scope.credentials).then(function (user) {
-      // after success login, we communicate the authentication state through events (with $broadcast)
-      $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-      $scope.setCurrentUser(user);
-    }, function() {
-      $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
-    });
+    // Llamamos al SessionService para realizar ahi las validaciones
+    var valid = SessionService.validarErrorLogin($scope.credentials);
+    console.log(valid);
+    console.log(SessionService.valid);
 
-    // UserFactory.login($scope.loginUser, function(data) {
-    //   if (data) {
-    //     //Yes User.
-    //     if (!data.error) {
-    //       console.log(data);
-    //       $scope.sessionUser = data;
-    //       $scope.loggedIn = true;
+    if (!valid) {
+      swal("Error al hacer login");
+      cleanControllerData();
 
-    //       $('#Login').modal('toggle');
-    //       $scope.loginUser = {};
-    //     } else {
-    //       //Bad Password.
-    //       $scope.loginErrors = 'Failed login, please check your email and password.';
-    //     }
-    //   //No User.
-    //   } else{
-    //     $scope.loginErrors = 'Failed login, please check your email and password.';
-    //   }
-    // })
+    } else {
+
+      AuthService.login($scope.credentials).then(function (user) {
+        console.log(user);
+        console.log("Success Login User");
+        // after success login, we communicate the authentication state through events (with $broadcast)
+        $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+        $scope.setCurrentUser(user);
+
+        $('#Login').modal('toggle');
+        $scope.credentials = { // user infor que ingresa al formulario de login
+          username: '',
+          password: ''
+        };
+
+        $location.path("/profile");
+      }, function() {
+        $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+      });
+
+      // UserFactory.login($scope.loginUser, function(data) {
+      //   if (data) {
+      //     //Yes User.
+      //     if (!data.error) {
+      //       console.log(data);
+      //       $scope.sessionUser = data;
+      //       $scope.loggedIn = true;
+
+      //       $('#Login').modal('toggle');
+      //       $scope.loginUser = {};
+      //     } else {
+      //       //Bad Password.
+      //       $scope.loginErrors = 'Failed login, please check your email and password.';
+      //     }
+      //   //No User.
+      //   } else{
+      //     $scope.loginErrors = 'Failed login, please check your email and password.';
+      //   }
+      // })
+    }
   };
+
+  function setCurrentUser(user){
+    $scope.sessionUser = user;
+    $scope.loggedIn = true;
+  }
 
   function logout() {
     // Log out through Passport, then clear local user data and redirect
     $http.get('/logout').then(function(){
       $scope.sessionUser = {};
       $scope.loggedIn = false;
+      AuthService.logout();
     });
   };
+
+  function cleanControllerData() {
+    $scope.user = {}; 
+    $scope.credentials = { 
+      usermail: '',
+      password: ''
+    };
+  }
 
 };
 

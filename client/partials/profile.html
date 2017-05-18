@@ -1,6 +1,6 @@
-<div ng-controller="ProfileController">
+<div>
 	<div>
-		<h2>Bienvenido a tu perfil{{$scope.sessionUser.name}}</h2>
+		<h2>Bienvenido a tu perfil {{loggedUser.name}} </h2>
 
 		<h2>User Profile</h2>
 
@@ -12,16 +12,16 @@
         <div class="form-group">
             <label for="first_name" class="col-sm-2 control-label">First Name</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control {{errors.first_name}}" id="first_name" ng-model="loggedUser.first_name" ng-change="updateInfo('first_name')">
+                <input type="text" class="form-control {{errors.first_name}}" id="first_name" ng-model="loggedUser.name" ng-change="updateInfo('first_name')">
             </div>
         </div>
         <div class="form-group">
             <label for="last_name" class="col-sm-2 control-label">Last Name</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control {{errors.last_name}}" id="last_name" ng-model="loggedUser.last_name" ng-change="updateInfo('last_name')">
+                <input type="text" class="form-control {{errors.last_name}}" id="last_name" ng-model="loggedUser.lastName" ng-change="updateInfo('last_name')">
             </div>
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label for="street_address" class="col-sm-2 control-label">Street Address</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control {{errors.street_address}}" id="street_address" ng-model="loggedUser.street_address" ng-change="updateInfo('street_address')">
@@ -50,7 +50,7 @@
             <div class="col-sm-10">
                 <input type="text" class="form-control {{errors.phone_number}}" id="phone_number" ng-model="loggedUser.phone_number" ng-change="updateInfo('phone_number')">
             </div>
-        </div>
+        </div> -->
         <!-- DONT REALLY WANT THEM TO CHANGE EMAIL WHENEVRRR -->
         <!-- <div class="form-group">
             <label for="email" class="col-sm-2 control-label">Email Address</label>
@@ -58,14 +58,14 @@
                 <input type="email" class="form-control {{errors.email}}" id="email"  ng-model="loggedUser.email" ng-change="updateInfo('email')">
             </div>
         </div> -->
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label for="volunteer" class="col-sm-2 control-label">Opt-In</label>
             <div class="col-sm-10">
               <label><input type="checkbox" id="volunteer" ng-model="loggedUser.volunteer" ng-click="updateInfo('volunteer')"> Would you like to volunteer a custom letter?</label><br>
               <label><input type="checkbox" id="email_notification" ng-model="loggedUser.email_notification" ng-click="updateInfo('email_notification')"> Would you like to receive email alerts for new causes?</label><br>
               <label><input type="checkbox" id="phone_notification" ng-model="loggedUser.phone_notification" ng-click="updateInfo('phone_notification')"> Would you like to receive text alerts for new causes?</label><br>
             </div>
-        </div>
+        </div> -->
         <div class="form-group">
             <div class="col-sm-offset-8 col-sm-4 text-right">
                 <button type="submit" id="update_button" ng-click="updateProfile()">Update</button>
@@ -78,22 +78,22 @@
         <div class="form-group">
             <label for="oldpassword" class="col-sm-2 control-label">Old Password</label>
             <div class="col-sm-8">
-                <input type="password" class="form-control" id="user_oldpassword" ng-model="pass.oldPassword">
+                <input type="password" class="form-control" id="user_oldpassword" ng-model="pass.password">
             </div>
         </div>
         <div class="form-group">
             <label for="password" class="col-sm-2 control-label">New Password</label>
             <div class="col-sm-8">
-                <input type="password" class="form-control" id="user_password" ng-model="pass.newPassword">
+                <input type="password" class="form-control" id="user_password" ng-model="pass.newpassword">
             </div>
-            <div class="col-sm-2 text-right">
+<!--             <div class="col-sm-2 text-right">
                 <button type="button" id="password_button" ng-click="showPassword()">{{ showpass }}</button>
-            </div>
+            </div> -->
         </div>
         <div class="form-group">
             <label for="confirmpassword" class="col-sm-2 control-label">Confirm New Password</label>
             <div class="col-sm-8">
-                <input type="password" class="form-control" id="user_confPassword" ng-model="pass.confPassword">
+                <input type="password" class="form-control" id="user_confPassword" ng-model="pass.newpassword1">
             </div>
         </div>
         <div class="form-group">
