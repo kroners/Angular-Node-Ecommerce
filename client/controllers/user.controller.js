@@ -168,6 +168,12 @@ function UserController($rootScope, $scope, $http, $location, AuthService, Sessi
         $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
         $scope.setCurrentUser(user);
 
+        $('#Login').modal('toggle');
+        $scope.credentials = { // user infor que ingresa al formulario de login
+          username: '',
+          password: ''
+        };
+
         $location.path("/profile");
       }, function() {
         $rootScope.$broadcast(AUTH_EVENTS.loginFailed);

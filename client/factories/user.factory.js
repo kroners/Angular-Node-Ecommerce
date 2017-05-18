@@ -109,9 +109,15 @@
 			})
 		};
 
-		function changePassword (pass, callback) {
-			$http.post('/changePassword', pass).success(function(data){
-				callback(data);
+		function changePassword (pass) {
+			return $http.post('/auth/cambiopassword', pass).then(function(data){
+				console.log("Successful change password");
+				console.log(data);
+				return data;
+			})
+			.catch(function(error){
+				console.log('error', error);
+				return error;
 			})
 		};
 

@@ -42,17 +42,19 @@
 			}
 		}
 
-		this.create = function (sessionId, userId, user, userRole) {
+		this.create = function (sessionId, user, username, name, userRole) {
 			this.id = sessionId;
-			this.userId = userId;
 			this.user = user;
+			this.username = username;
+			this.name = name;
 			this.userRole = userRole;
 		}
 		
 		this.destroy = function() {
 			this.id = null;
-			this.userId = null;
 			this.user = null;
+			this.username = null;
+			this.name = null;
 			this.userRole = null;
 		}
 

@@ -1,6 +1,6 @@
-<div ng-controller="ProfileController">
+<div>
 	<div>
-		<h2>Bienvenido a tu perfil{{$scope.sessionUser.name}}</h2>
+		<h2>Bienvenido a tu perfil {{loggedUser.name}} </h2>
 
 		<h2>User Profile</h2>
 
@@ -12,13 +12,13 @@
         <div class="form-group">
             <label for="first_name" class="col-sm-2 control-label">First Name</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control {{errors.first_name}}" id="first_name" ng-model="loggedUser.first_name" ng-change="updateInfo('first_name')">
+                <input type="text" class="form-control {{errors.first_name}}" id="first_name" ng-model="loggedUser.name" ng-change="updateInfo('first_name')">
             </div>
         </div>
         <div class="form-group">
             <label for="last_name" class="col-sm-2 control-label">Last Name</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control {{errors.last_name}}" id="last_name" ng-model="loggedUser.last_name" ng-change="updateInfo('last_name')">
+                <input type="text" class="form-control {{errors.last_name}}" id="last_name" ng-model="loggedUser.lastName" ng-change="updateInfo('last_name')">
             </div>
         </div>
         <!-- <div class="form-group">
@@ -78,22 +78,22 @@
         <div class="form-group">
             <label for="oldpassword" class="col-sm-2 control-label">Old Password</label>
             <div class="col-sm-8">
-                <input type="password" class="form-control" id="user_oldpassword" ng-model="pass.oldPassword">
+                <input type="password" class="form-control" id="user_oldpassword" ng-model="pass.password">
             </div>
         </div>
         <div class="form-group">
             <label for="password" class="col-sm-2 control-label">New Password</label>
             <div class="col-sm-8">
-                <input type="password" class="form-control" id="user_password" ng-model="pass.newPassword">
+                <input type="password" class="form-control" id="user_password" ng-model="pass.newpassword">
             </div>
-            <div class="col-sm-2 text-right">
+<!--             <div class="col-sm-2 text-right">
                 <button type="button" id="password_button" ng-click="showPassword()">{{ showpass }}</button>
-            </div>
+            </div> -->
         </div>
         <div class="form-group">
             <label for="confirmpassword" class="col-sm-2 control-label">Confirm New Password</label>
             <div class="col-sm-8">
-                <input type="password" class="form-control" id="user_confPassword" ng-model="pass.confPassword">
+                <input type="password" class="form-control" id="user_confPassword" ng-model="pass.newpassword1">
             </div>
         </div>
         <div class="form-group">

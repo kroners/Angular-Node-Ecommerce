@@ -6,9 +6,9 @@
 		.module('farmacia')
 		.factory('AuthService', AuthService)
 
-	AuthService.$inject = ['$http', 'SessionService'];
+	AuthService.$inject = ['$http', 'SessionService', 'USER_ROLES'];
 
-	function AuthService($http, SessionService) {
+	function AuthService($http, SessionService, USER_ROLES) {
 		console.log("Dentro del AuthService");
         
 		var authService = {
@@ -26,8 +26,8 @@
 			return $http.post('/login', credentials).then(function (logueado) {
 				//Returns the User data that will be kept in Session
             	console.log(logueado);
-				SessionService.create(logueado.data.id, logueado.data.user.id, logueado.data, logueado.data.user.role);
-				return logueado.data.user;
+				SessionService.create('logged', logueado.data, logueado.data.username, logueado.data.name, USER_ROLES.user );
+				return logueado.data;
 			})
             .catch(function(error){
                 console.log('error', error);
