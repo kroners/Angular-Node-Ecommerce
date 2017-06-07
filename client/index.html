@@ -23,7 +23,14 @@
   <script src="js/jquery.min.js"></script>
 
   <!--//theme style-->
-  <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+  <script type="application/x-javascript"> 
+    addEventListener("load", function() { 
+      setTimeout(hideURLbar, 0); 
+      }, false); 
+
+    function hideURLbar(){ window.scrollTo(0,1); } 
+  </script>
+  
   <!-- start menu -->
   <script src="js/simpleCart.min.js"> </script>
   <!-- start menu -->
@@ -37,95 +44,59 @@
 </head >
 <body >
   <div ng-controller="UserController">
-	<!-- Navigation -->
-    <!-- <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"> -->
-        <!-- <div class="container"> -->
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="header-top">
-              <div class="header-bottom">
-<!--                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Where are</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button> -->
-                <div class="logo">
-                  <h1><a href="index.html">Le Drug Store</a></h1>
-                </div>
+    <div class="header-top">
+      <div class="header-bottom">
 
-                <div class="top-nav">
-                  <ul class="memenu skyblue">
-                    <li class="active"><a href="index.html">Home</a></li>
-                    <li class="grid"><a href="#">Products</a>
-                      <div class="mepanel">
-                        <div class="row">
-                          <div class="col1 me-one">
-                            <h4>Shop</h4>
-                            <ul>
-                              <li><a href="product.html">New Arrivals</a></li>
-                              <li><a href="product.html">Home</a></li>
-                              <li><a href="product.html">Decorates</a></li>
-                              <li><a href="product.html">Accessories</a></li>
-                              <li><a href="product.html">Kids</a></li>
-                              <li><a href="product.html">Login</a></li>
-                              <li><a href="product.html">Brands</a></li>
-                              <li><a href="product.html">My Shopping Bag</a></li>
-                            </ul>
-                          </div>
-                          <div class="col1 me-one">
-                            <h4>Type</h4>
-                            <ul>
-                              <li><a href="product.html">Diwali Lights</a></li>
-                              <li><a href="product.html">Tube Lights</a></li>
-                              <li><a href="product.html">Bulbs</a></li>
-                              <li><a href="product.html">Ceiling Lights</a></li>
-                              <li><a href="product.html">Accessories</a></li>
-                              <li><a href="product.html">Lanterns</a></li>
-                            </ul>
-                          </div>
-                          <div class="col1 me-one">
-                            <h4>Popular Brands</h4>
-                            <ul>
-                              <li><a href="product.html">Everyday</a></li>
-                              <li><a href="product.html">Philips</a></li>
-                              <li><a href="product.html">Havells</a></li>
-                              <li><a href="product.html">Wipro</a></li>
-                              <li><a href="product.html">Jaguar</a></li>
-                              <li><a href="product.html">Ave</a></li>
-                              <li><a href="product.html">Gold Medal</a></li>
-                              <li><a href="product.html">Anchor</a></li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    <!-- <li class="grid"><a href="typo.html">Typo</a></li> -->
-                    <li class="grid"><a href="contact.html">Contact</a></li>
-                    <li class="grid">
-                        <a data-toggle="modal" data-target="#Register" ng-if='!loggedIn'>Register</a>
-                        <a href="profile" ng-if='loggedIn'>Profile</a>
-                    </li>
-                    <li class="grid">
-                        <a data-toggle="modal" data-target="#Login" ng-if='!loggedIn'>Login</a>
-                        <a href="" ng-click='logout()' ng-if='loggedIn'>Logout</a>
-                    </li>
-                  </ul>
-                 </div>
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="logo">
+            <h1><a href="index.html">Le Drug Store</a></h1>
+          </div>
+        </div>
+                
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="index.html">Home</a></li>
+            <li class="grid"><a href="#">Products</a>
+              <div class="mepanel">
+
               </div>
-              <div class="cart box_1">
-                <a href="checkout.html">
-                <div class="total">
-                  <span class="simpleCart_total"></span> (<span id="simpleCart_quantity" class="simpleCart_quantity"></span>)
-                </div>
-                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
-                </a>
-                <p><a href="javascript:;" class="simpleCart_empty">Empty Cart</a></p>
-                <div class="clearfix"> </div>
-              </div>
-              <div class="clearfix"> </div>
+            </li>
+            <!-- <li class="grid"><a href="typo.html">Typo</a></li> -->
+            <li class="grid"><a href="contact.html">Contact</a></li>
+            <li class="grid">
+              <a data-toggle="modal" data-target="#Register" ng-if='!loggedIn'>Register</a>
+              <a href="profile" ng-if='loggedIn'>Profile</a>
+            </li>
+            <li class="grid">
+              <a data-toggle="modal" data-target="#Login" ng-if='!loggedIn'>Login</a>
+              <a href="" ng-click='logout()' ng-if='loggedIn'>Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="cart box_1">
+        <a href="checkout.html">
+          <div class="total">
+            <span class="simpleCart_total"></span> (<span id="simpleCart_quantity" class="simpleCart_quantity"></span>)
+          </div>
+          <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+        </a>
+        <p><a href="javascript:;" class="simpleCart_empty">Empty Cart</a></p>
+        <div class="clearfix"> </div>
+      </div>
+      <div class="clearfix"> </div>
        <!---->
-            </div>
-            <div class="clearfix"> </div>
+    </div>
+    
+    <div class="clearfix"> </div>
 
             <!-- /.navbar-collapse -->
         <!-- </div> -->
@@ -222,24 +193,33 @@
     </div>
     </div>
 <!-- Page Content -->
-    <div class="container">
 
       <div ng-view=""></div>
 
 
         <hr>
 
-        <!-- Footer -->
-        <footer>
-            <div class="row">
-                <div class="col-lg-12">
-                    <p>Copyright &copy; FarmaciaEC 2017</p>
-                </div>
+
+</div>
+
+
+    <!-- Footer -->
+    <div class="copywrite">
+       <div class="container">
+         <div class="copy">
+              <p>Copyright &copy; FarmaciaEC 2017</p>
             </div>
-        </footer>
-      </div>
+         <div class="social">             
+            <a href="#"><i class="facebook"></i></a>
+            <a href="#"><i class="twitter"></i></a>
+            <a href="#"><i class="dribble"></i></a> 
+            <a href="#"><i class="google"></i></a>  
+            <a href="#"><i class="youtube"></i></a> 
+         </div>
+         <div class="clearfix"></div>
+       </div>
     </div>
-        <!-- jQuery -->
+    <!-- jQuery -->
     <script src="js/jquery.js"></script>
     <script src="js/memenu.js"></script>
     <!-- Bootstrap Core JavaScript -->

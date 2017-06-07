@@ -175,8 +175,12 @@ function UserController($rootScope, $scope, $http, $location, AuthService, Sessi
         };
 
         $location.path("/profile");
-      }, function() {
+      })
+      .catch(function(error) {
+        console.log("error", error);
         $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+        swal("Error al hacer login");
+        cleanControllerData();
       });
 
       // UserFactory.login($scope.loginUser, function(data) {
