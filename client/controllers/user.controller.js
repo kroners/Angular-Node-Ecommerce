@@ -23,6 +23,7 @@ function UserController($rootScope, $scope, $http, $location, AuthService, Sessi
     username: '',
     password: ''
   };
+  $scope.recovermail = {};
   $scope.userService = UserService;
 
   $scope.loginErrors = '';
@@ -39,6 +40,8 @@ function UserController($rootScope, $scope, $http, $location, AuthService, Sessi
   $scope.logout = logout;
   $scope.toggle = toggle;
   $scope.setCurrentUser = setCurrentUser;
+  $scope.lostPasswd = lostPasswd;
+  $scope.recuperandoPass = recuperandoPass;
 
   function toggle() {
     $scope.mobile_drop = !$scope.mobile_drop;
@@ -225,6 +228,29 @@ function UserController($rootScope, $scope, $http, $location, AuthService, Sessi
       usermail: '',
       password: ''
     };
+  }
+
+  // llamando funcion para recuperar contrasena
+  function lostPasswd(){
+    $('#Login').modal('toggle');
+    $location.path('/recoverPass')
+  }
+
+  function recuperandoPass(){
+    console.log($scope.username);
+    UserFactory.resetPassword($scope.username).then(function(data){
+      console.log(data);
+      console.log("Success Recover pass mail User");
+      swal("Se le enviaran las indicaciones de recuperacion al correo ingresado. Gracias");
+    })
+    .catch(function(error){
+      console.log("Se pasan validaciones pero no se registro");
+      console.log(error);
+
+      // limpiar el service
+      UserService.restartData();
+    });
+    $location.path('/');
   }
 
 };
