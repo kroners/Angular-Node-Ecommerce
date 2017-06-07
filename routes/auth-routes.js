@@ -25,6 +25,4 @@ module.exports = function(app){
   app.post('/auth/reset/:token', function(req, res){
     userControllers.validarTokenRestablecerPassword(req,res)
   })
-
-
 }
