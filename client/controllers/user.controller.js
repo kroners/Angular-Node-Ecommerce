@@ -208,16 +208,20 @@ function UserController($rootScope, $scope, $http, $location, AuthService, Sessi
 
   function logout() {
     // Log out through Passport, then clear local user data and redirect
-    $http.get('/logout').then(function(){
-      $scope.sessionUser = {};
-      $scope.loggedIn = false;
-      AuthService.logout();
-    });
+    // $http.get('/logout').then(function(){
+    //   $scope.sessionUser = {};
+    //   $scope.loggedIn = false;
+    //   AuthService.logout();
+    // });
+    $scope.sessionUser = {};
+    $scope.loggedIn = false;
+    SessionService.destroy();
+    $location.path('/');
   };
 
   function cleanControllerData() {
-    $scope.user = {}; 
-    $scope.credentials = { 
+    $scope.user = {};
+    $scope.credentials = {
       usermail: '',
       password: ''
     };
