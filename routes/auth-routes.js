@@ -15,6 +15,7 @@ module.exports = function(app){
   })
   //Llamar a metodo recuperar Contrasena
   app.post('/auth/recuperarpassword', function(req, res){
+    console.log("ruta recuperarpassword");
     userControllers.recuperarPassword(req, res)
   })
   //GET para verificar si tiene token para resetear password
@@ -25,5 +26,4 @@ module.exports = function(app){
   app.post('/auth/reset/:token', function(req, res){
     userControllers.validarTokenRestablecerPassword(req,res)
   })
-
 }

@@ -29,6 +29,10 @@ function config($locationProvider, $routeProvider) {
       templateUrl: 'partials/register.html',
       controller: 'UserController'
     })
+    .when('/recoverPass', {
+      templateUrl: 'partials/recuperarPass.html',
+      controller: 'UserController'
+    })
     .otherwise({
       redirectTo: '/'
     });

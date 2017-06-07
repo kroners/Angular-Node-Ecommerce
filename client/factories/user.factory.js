@@ -81,8 +81,10 @@
 			})
 		};
 
-		function resetPassword (password, url, callback) {
-			$http.post('/resetPassword', {password: password, resetUrl: url}).success(function(data) {
+		function resetPassword (username) {
+			console.log("Recuperando contraseña usuario por mail");
+			console.log(username);
+			return $http.post('/auth/recuperarpassword', username).then(function(data) {
 				return data;
 			});
 		}

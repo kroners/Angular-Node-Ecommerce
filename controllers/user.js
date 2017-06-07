@@ -88,6 +88,7 @@ function cambiarPassword(req,res, sess){
 }
 
 function recuperarPassword(req,res){
+  console.log("adentro de recuperarPassword");
   var username = req.body.username.toLowerCase().trim();
   var token=''
   async.waterfall([
