@@ -44,13 +44,17 @@
       //     }
       //   });
     };
-    
+
     checkUserSession();
 
     function updateProfile(){
       console.log("Updating User Info");
       UserFactory.updateUser($scope.loggedUser).then(function(data){
-        console.log("Usuario actualizado");
+        if(data.status == 404){
+          console.log("Error actualizando usuario");
+        } else {
+          console.log("Usuario actualizado");
+        }
       });
     };
 
@@ -84,7 +88,7 @@
     };
 
     function showPassword(){
-
+      
     };
 
   };

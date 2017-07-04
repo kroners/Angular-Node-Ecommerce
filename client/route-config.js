@@ -17,6 +17,9 @@ function config($locationProvider, $routeProvider) {
       templateUrl: 'partials/profile.html',
       controller: 'ProfileController'
     })
+    .when('/contact', {
+      templateUrl: 'partials/contactus.html'
+    })
     .when('/adminYoyoLala', {
       templateUrl: 'partials/admin-panel.html',
       controller: 'AdminController'

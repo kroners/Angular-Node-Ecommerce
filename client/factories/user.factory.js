@@ -101,13 +101,19 @@
 
 		function delUser (user) {
 			return $http.post('/delUser', user).success(function(data) {
+				console.log(data);
 				return data;
 			});
 		}
 
 		function updateUser (userinfo) {
-			$http.post('/updateUser', userinfo).success(function(data){
+			return $http.post('/updateUser', userinfo).then(function(data){
+				console.log(data);
 				return data;
+			})
+			.catch(function(error){
+				console.log('error', error);
+				return error;
 			})
 		};
 
